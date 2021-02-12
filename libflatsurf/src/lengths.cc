@@ -131,6 +131,7 @@ Label Lengths<Surface>::subtractRepeated(Label minuend) {
     LIBFLATSURF_ASSERT(iterations > mpz_class(), "subtractRepeated() should not be called when there is no full subtract possible; but the labels on the stack fit only " << iterations << " times into the minuend label " << render(minuend) << "; the code cannot handle partial subtracts yet.");
     subtractRepeated(minuend, iterations);
   } else {
+    LIBFLATSURF_ASSERT(not stack.empty(), "a subtract with an empty stack will not improve the combinatorics");
     subtractRepeated(minuend, 1);
   }
 
@@ -139,6 +140,11 @@ Label Lengths<Surface>::subtractRepeated(Label minuend) {
 
 template <typename Surface>
 void Lengths<Surface>::subtractRepeated(Label minuend, const mpz_class& iterations) {
+  LIBFLATSURF_ASSERT(stack.empty() == not sum, "stack and sum are out of sync");
+
+  if (stack.empty())
+    return;
+
   LIBFLATSURF_ASSERT(iterations > 0, "must subtract at least once");
   LIBFLATSURF_ASSERT(length(minuend) > 0, "lengths must be positive");
 
