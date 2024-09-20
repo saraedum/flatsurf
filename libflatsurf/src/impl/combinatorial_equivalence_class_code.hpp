@@ -39,6 +39,6 @@ struct CombinatorialEquivalenceClassCode : public EquivalenceClassCode {
   Word word;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

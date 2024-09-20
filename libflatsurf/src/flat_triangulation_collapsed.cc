@@ -242,10 +242,10 @@ void ImplementationOf<FlatTriangulationCollapsed<T>>::updateAfterFlip(HalfEdgeMa
   const auto sum = [&](const auto& lhs, const auto& rhs) {
     const auto chain = static_cast<const Chain<FlatTriangulation<T>>&>(lhs) + static_cast<const Chain<FlatTriangulation<T>>&>(rhs);
     return SaddleConnection(
-      surface.self->original,
-      surface.self->original->sector(lhs.source(), chain),
-      surface.self->original->sector(rhs.target(), -chain),
-      chain);
+        surface.self->original,
+        surface.self->original->sector(lhs.source(), chain),
+        surface.self->original->sector(rhs.target(), -chain),
+        chain);
   };
 
   auto& collapsedHalfEdges = surface.self->collapsedHalfEdges;
@@ -418,7 +418,6 @@ void ImplementationOf<FlatTriangulationCollapsed<T>>::flip(HalfEdge e) {
     e = -e;
 
   ImplementationOf<FlatTriangulationCombinatorial>::flip(e);
-
 
   // In the past we verified that the area of the surface has not been changed
   // by the flip. While this is a very powerful assertion, it is also extremely

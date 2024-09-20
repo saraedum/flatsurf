@@ -23,7 +23,6 @@
 #include <optional>
 
 #include "../../flatsurf/equivalence.hpp"
-
 #include "read_only.hpp"
 
 namespace flatsurf {
@@ -47,7 +46,6 @@ struct ImplementationOf<Equivalence<Surface>> {
 
   // Return a printable representation of this notion of equivalence.
   virtual std::string toString() const = 0;
-
 };
 
 template <typename Surface>
@@ -55,6 +53,6 @@ template <typename... Args>
 Equivalence<Surface>::Equivalence(PrivateConstructor, Args&&... args) :
   self(args...) {}
 
-}
+}  // namespace flatsurf
 
 #endif

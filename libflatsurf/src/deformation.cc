@@ -22,8 +22,8 @@
 
 #include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/path_iterator.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "impl/composite_deformation_relation.hpp"
 #include "impl/deformation.impl.hpp"

@@ -17,20 +17,19 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
+#include "impl/combinatorial_deformation_relation.hpp"
+
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
-#include "../flatsurf/vector.hpp"
-#include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
-#include "../flatsurf/edge.hpp"
-#include "../flatsurf/permutation.hpp"
 #include "../flatsurf/chain.hpp"
-#include "../flatsurf/saddle_connection.hpp"
+#include "../flatsurf/edge.hpp"
 #include "../flatsurf/fmt.hpp"
-
-#include "impl/combinatorial_deformation_relation.hpp"
-
+#include "../flatsurf/path.hpp"
+#include "../flatsurf/permutation.hpp"
+#include "../flatsurf/point.hpp"
+#include "../flatsurf/saddle_connection.hpp"
+#include "../flatsurf/vector.hpp"
 #include "util/assert.ipp"
 
 namespace flatsurf {
@@ -41,14 +40,14 @@ std::string formatMapping(const std::unordered_map<HalfEdge, HalfEdge>& mapping)
   return fmt::format("{{{}}}", fmt::join(mapping, ", "));
 }
 
-}
+}  // namespace
 
 template <typename Surface>
 CombinatorialDeformationRelation<Surface>::CombinatorialDeformationRelation(const Surface& domain, const Surface& codomain, std::unordered_map<HalfEdge, HalfEdge> mapping) :
   DeformationRelation<Surface>(domain, codomain),
   mapping(std::move(mapping)),
   relabeling(true) {
-  LIBFLATSURF_ASSERT(2*domain.size() == this->mapping.size(), "half edge mapping " << formatMapping(this->mapping) << " is not compatible with surface " << domain);
+  LIBFLATSURF_ASSERT(2 * domain.size() == this->mapping.size(), "half edge mapping " << formatMapping(this->mapping) << " is not compatible with surface " << domain);
 
   for (const Edge& edge : domain.edges()) {
     const auto preimage = edge.positive();
@@ -62,7 +61,6 @@ CombinatorialDeformationRelation<Surface>::CombinatorialDeformationRelation(cons
       continue;
     }
 
-
     LIBFLATSURF_ASSERT(minus_image->second == -image->second, "mapping must preserve edges but " << formatMapping(this->mapping) << " does not.");
 
     if (domain.fromHalfEdge(preimage) != codomain.fromHalfEdge(image->second)) {
@@ -74,7 +72,7 @@ CombinatorialDeformationRelation<Surface>::CombinatorialDeformationRelation(cons
 
 template <typename Surface>
 CombinatorialDeformationRelation<Surface>::CombinatorialDeformationRelation(const Surface& domain, const Surface& codomain, const Permutation<HalfEdge>& mapping) :
-  CombinatorialDeformationRelation(domain, codomain, [&](){
+  CombinatorialDeformationRelation(domain, codomain, [&]() {
     std::unordered_map<HalfEdge, HalfEdge> map;
 
     for (const HalfEdge& preimage : mapping.domain())
@@ -124,7 +122,7 @@ template <typename Surface>
 std::unique_ptr<DeformationRelation<Surface>> CombinatorialDeformationRelation<Surface>::section() const {
   std::unordered_map<HalfEdge, HalfEdge> inverse;
 
-  for (const auto& [lhs, rhs]: mapping)
+  for (const auto& [lhs, rhs] : mapping)
     inverse[rhs] = lhs;
 
   return std::make_unique<CombinatorialDeformationRelation>(this->codomain, this->domain, inverse);
@@ -147,7 +145,7 @@ std::ostream& CombinatorialDeformationRelation<Surface>::operator>>(std::ostream
   return os << this->domain << " → " << this->codomain << " mapping half edges " << formatMapping(this->mapping);
 }
 
-}
+}  // namespace flatsurf
 
 // Instantiations of templates so implementations are generated for the linker
 #include "util/instantiate.ipp"

@@ -17,18 +17,17 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include "external/catch2/single_include/catch2/catch.hpp"
-
-#include "../flatsurf/point.hpp"
-#include "../flatsurf/edge.hpp"
-#include "../flatsurf/vertex.hpp"
 #include "../flatsurf/bound.hpp"
+#include "../flatsurf/edge.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/saddle_connections.hpp"
 #include "../flatsurf/saddle_connections_iterator.hpp"
-#include "generators/surface_generator.hpp"
+#include "../flatsurf/vertex.hpp"
+#include "external/catch2/single_include/catch2/catch.hpp"
 #include "generators/half_edge_generator.hpp"
 #include "generators/point_generator.hpp"
+#include "generators/surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -308,4 +307,4 @@ TEMPLATE_TEST_CASE("Points Remember the Surface they are Defined On", "[Point][s
   REQUIRE(point.surface() == *surface);
 }
 
-}
+}  // namespace flatsurf::test

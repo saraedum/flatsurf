@@ -17,19 +17,20 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <unordered_map>
+#include "impl/combinatorial_equivalence_class_code.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
-#include "impl/combinatorial_equivalence_class_code.hpp"
+#include <unordered_map>
 
-#include "util/hash.ipp"
 #include "util/assert.ipp"
+#include "util/hash.ipp"
 
 namespace flatsurf {
 
-CombinatorialEquivalenceClassCode::CombinatorialEquivalenceClassCode(Word word) : word(std::move(word)) {
+CombinatorialEquivalenceClassCode::CombinatorialEquivalenceClassCode(Word word) :
+  word(std::move(word)) {
   LIBFLATSURF_ASSERT(([&]() {
     const auto& word = this->word;
 
@@ -47,7 +48,7 @@ CombinatorialEquivalenceClassCode::CombinatorialEquivalenceClassCode(Word word) 
       min = std::min(min, -c);
       labels[c] += 2;
 
-      for (const auto& label: character) {
+      for (const auto& label : character) {
         if (label < 0) {
           min = std::min(min, label);
           labels[-label] += 2;
@@ -66,13 +67,14 @@ CombinatorialEquivalenceClassCode::CombinatorialEquivalenceClassCode(Word word) 
         return false;
 
     return true;
-  }()), "malformed combinatorial code word describing equivalence class, each nonzero label must show up exactly once with each sign: " << *this);
+  }()),
+      "malformed combinatorial code word describing equivalence class, each nonzero label must show up exactly once with each sign: " << *this);
 }
 
 size_t CombinatorialEquivalenceClassCode::hash() const {
   size_t hash = word.size();
-  for (const auto& character: word)
-    for (const auto& stroke: character)
+  for (const auto& character : word)
+    for (const auto& stroke : character)
       hash = hash_combine(hash, stroke);
   return hash;
 }
@@ -89,4 +91,4 @@ std::string CombinatorialEquivalenceClassCode::toString() const {
   return fmt::format("{}", word);
 }
 
-}
+}  // namespace flatsurf

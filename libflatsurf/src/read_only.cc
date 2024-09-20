@@ -71,11 +71,11 @@ std::ostream& operator<<(std::ostream& os, const ReadOnly<T>& self) {
 
 }  // namespace flatsurf
 
+#include "impl/equivalence.impl.hpp"
 #include "impl/flat_triangulation.impl.hpp"
 #include "impl/flat_triangulation_collapsed.impl.hpp"
 #include "impl/flat_triangulation_combinatorial.impl.hpp"
 #include "impl/vertical.impl.hpp"
-#include "impl/equivalence.impl.hpp"
 #include "util/instantiate.ipp"
 
 #define READONLY_WRAP_WRAP(R, TYPE, T) (ReadOnly<TYPE<T>>)

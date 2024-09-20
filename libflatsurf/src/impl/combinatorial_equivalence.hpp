@@ -23,8 +23,8 @@
 #include <optional>
 
 #include "../../flatsurf/half_edge.hpp"
-#include "equivalence_class_code.hpp"
 #include "equivalence.impl.hpp"
+#include "equivalence_class_code.hpp"
 
 namespace flatsurf {
 
@@ -46,6 +46,6 @@ struct CombinatorialEquivalence : ImplementationOf<Equivalence<Surface>> {
   bool oriented;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

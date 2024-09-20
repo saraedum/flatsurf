@@ -22,14 +22,13 @@
 #include <intervalxt/interval_exchange_transformation.hpp>
 #include <intervalxt/sample/lengths.hpp>
 
-#include "../flatsurf/contour_decomposition.hpp"
 #include "../flatsurf/contour_component.hpp"
+#include "../flatsurf/contour_decomposition.hpp"
 #include "../flatsurf/flat_triangulation.hpp"
-#include "../flatsurf/interval_exchange_transformation.hpp"
 #include "../flatsurf/flat_triangulation_collapsed.hpp"
+#include "../flatsurf/interval_exchange_transformation.hpp"
 #include "../flatsurf/vector.hpp"
 #include "external/catch2/single_include/catch2/catch.hpp"
-
 #include "generators/surface_generator.hpp"
 #include "surfaces.hpp"
 

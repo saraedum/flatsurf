@@ -32,8 +32,8 @@
 #include <exact-real/rational_field.hpp>
 #include <exact-real/yap/arb.hpp>
 #include <gmpxxll/mpz_class.hpp>
-#include <ostream>
 #include <limits>
+#include <ostream>
 
 #include "../flatsurf/bound.hpp"
 #include "../flatsurf/ccw.hpp"
@@ -515,8 +515,8 @@ Vector detail::VectorExact<Vector, T>::applyMatrix(const T& a, const T& b, const
   const Vector& self = static_cast<const Vector&>(*this);
 
   return Vector{
-    a * self.self->x + b * self.self->y,
-    c * self.self->x + d * self.self->y,
+      a * self.self->x + b * self.self->y,
+      c * self.self->x + d * self.self->y,
   };
 }
 

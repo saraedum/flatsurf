@@ -39,10 +39,8 @@ class Vertex : Serializable<Vertex>,
   static const Vertex &source(const FlatTriangulationCombinatorial &, const HalfEdge &);
   static const Vertex &target(const FlatTriangulationCombinatorial &, const HalfEdge &);
 
-  [[deprecated("Pass the surface as the first argument to Vertex::source() instead")]]
-  static const Vertex &source(const HalfEdge&, const FlatTriangulationCombinatorial &);
-  [[deprecated("Pass the surface as the first argument to Vertex::target() instead")]]
-  static const Vertex &target(const HalfEdge&, const FlatTriangulationCombinatorial &);
+  [[deprecated("Pass the surface as the first argument to Vertex::source() instead")]] static const Vertex &source(const HalfEdge &, const FlatTriangulationCombinatorial &);
+  [[deprecated("Pass the surface as the first argument to Vertex::target() instead")]] static const Vertex &target(const HalfEdge &, const FlatTriangulationCombinatorial &);
 
   HalfEdgeSet outgoing() const;
   HalfEdgeSet incoming() const;

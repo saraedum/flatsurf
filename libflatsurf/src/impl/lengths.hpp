@@ -27,8 +27,8 @@
 #include <intervalxt/lengths.hpp>
 #include <iosfwd>
 #include <memory>
-#include <vector>
 #include <unordered_set>
+#include <vector>
 
 #include "../../flatsurf/edge.hpp"
 #include "../../flatsurf/edge_map.hpp"

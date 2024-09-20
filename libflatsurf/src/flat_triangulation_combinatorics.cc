@@ -31,8 +31,8 @@
 #include "../flatsurf/fmt.hpp"
 #include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/half_edge_map.hpp"
-#include "../flatsurf/odd_half_edge_map.hpp"
 #include "../flatsurf/half_edge_set_iterator.hpp"
+#include "../flatsurf/odd_half_edge_map.hpp"
 #include "../flatsurf/permutation.hpp"
 #include "../flatsurf/vertex.hpp"
 #include "external/rx-ranges/include/rx/ranges.hpp"
@@ -132,7 +132,7 @@ FlatTriangulationCombinatorial FlatTriangulationCombinatorics<Surface>::relabel(
   if (hasBoundary())
     throw std::logic_error("not implemented: relabeling not implemented for surfaces with boundaries");
 
-  LIBFLATSURF_CHECK_ARGUMENT(2*size() == relabeling.size(), "domain of relabeling " << relabeling << " must be half edges of " << *this);
+  LIBFLATSURF_CHECK_ARGUMENT(2 * size() == relabeling.size(), "domain of relabeling " << relabeling << " must be half edges of " << *this);
 
   for (const auto& edge : edges())
     LIBFLATSURF_CHECK_ARGUMENT(relabeling(edge.negative()) == -relabeling(edge.positive()), "relabeling " << relabeling << " does not preserve edges");

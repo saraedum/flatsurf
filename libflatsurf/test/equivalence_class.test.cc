@@ -20,8 +20,8 @@
 #include "../flatsurf/edge.hpp"
 #include "../flatsurf/equivalence.hpp"
 #include "../flatsurf/equivalence_class.hpp"
-#include "generators/surface_generator.hpp"
 #include "generators/equivalence_generator.hpp"
+#include "generators/surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -87,7 +87,6 @@ TEMPLATE_TEST_CASE("Representative of Equivalence Classes", "[EquivalenceClass][
   REQUIRE(EquivalenceClass(representative, equivalence) == equivalenceClass);
 }
 
-
 TEMPLATE_TEST_CASE("Automorphisms of Surfaces", "[EquivalenceClass][automorphisms]", (long long), (mpz_class), (mpq_class), (renf_elem_class), (exactreal::Element<exactreal::IntegerRing>), (exactreal::Element<exactreal::RationalField>), (exactreal::Element<exactreal::NumberField>)) {
   using T = TestType;
 
@@ -118,4 +117,4 @@ TEMPLATE_TEST_CASE("Equivalence Classes are Hashable", "[EquivalenceClass][hash]
   REQUIRE(std::hash<EquivalenceClass<FlatTriangulation<T>>>{}(equivalenceClass) == std::hash<EquivalenceClass<FlatTriangulation<T>>>{}(EquivalenceClass(*surface, equivalence)));
 }
 
-}
+}  // namespace flatsurf::test

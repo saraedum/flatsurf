@@ -23,8 +23,8 @@
 #include <iosfwd>
 #include <unordered_map>
 
-#include "deformation_relation.hpp"
 #include "../../flatsurf/permutation.hpp"
+#include "deformation_relation.hpp"
 
 namespace flatsurf {
 
@@ -60,4 +60,3 @@ class CombinatorialDeformationRelation : public DeformationRelation<Surface> {
 }  // namespace flatsurf
 
 #endif
-

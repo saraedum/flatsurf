@@ -17,19 +17,20 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
+#include "../flatsurf/equivalence_class.hpp"
+
 #include <ostream>
 
-#include "../flatsurf/equivalence_class.hpp"
 #include "../flatsurf/deformation.hpp"
-#include "impl/equivalence_class_code.hpp"
 #include "impl/equivalence.impl.hpp"
-
 #include "impl/equivalence_class.impl.hpp"
+#include "impl/equivalence_class_code.hpp"
 
 namespace flatsurf {
 
 template <typename Surface>
-EquivalenceClass<Surface>::EquivalenceClass(const Surface& surface, const Equivalence<Surface>& equivalence) : self(spimpl::make_impl<ImplementationOf<EquivalenceClass>>(surface, equivalence)) {}
+EquivalenceClass<Surface>::EquivalenceClass(const Surface& surface, const Equivalence<Surface>& equivalence) :
+  self(spimpl::make_impl<ImplementationOf<EquivalenceClass>>(surface, equivalence)) {}
 
 template <typename Surface>
 bool EquivalenceClass<Surface>::operator==(const EquivalenceClass<Surface>& other) const {
@@ -49,7 +50,6 @@ const Surface& EquivalenceClass<Surface>::representative() const {
 template <typename Surface>
 ImplementationOf<EquivalenceClass<Surface>>::ImplementationOf(const Surface& surface, const Equivalence<Surface>& equivalence) :
   equivalence(equivalence) {
-
   auto [code, normalization, deformations] = equivalence.self->code(surface);
 
   this->surface = *normalization;
@@ -67,7 +67,7 @@ std::ostream& operator<<(std::ostream& os, const EquivalenceClass<Surface>& claz
   return os << "[" << clazz.representative() << "] identified by (" << *clazz.self->code << ")";
 }
 
-}
+}  // namespace flatsurf
 
 namespace std {
 

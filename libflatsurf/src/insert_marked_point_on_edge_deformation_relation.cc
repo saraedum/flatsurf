@@ -21,12 +21,12 @@
 
 #include <ostream>
 
-#include "../flatsurf/half_edge.hpp"
-#include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/edge.hpp"
+#include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/half_edge_set.hpp"
 #include "../flatsurf/half_edge_set_iterator.hpp"
+#include "../flatsurf/path.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/vector.hpp"
 #include "impl/generic_retriangulation_deformation_relation.hpp"
 #include "impl/point.impl.hpp"
@@ -65,7 +65,7 @@ Point<Surface> InsertMarkedPointOnEdgeDeformationRelation<Surface>::operator()(c
   // point V was inserted on one of the edges. We rotate so that it was
   // inserted on ``face``.
   while (!V.on(face))
-      face = this->domain->nextInFace(face);
+    face = this->domain->nextInFace(face);
 
   const auto [ap, bp, cp] = point.coordinates(face);
 
@@ -104,7 +104,7 @@ Point<Surface> InsertMarkedPointOnEdgeDeformationRelation<Surface>::operator()(c
       return Point{*this->codomain, VC, v_p, c_p, a_p};
   }
 
-  LIBFLATSURF_UNREACHABLE("Point " << point << " had no non-negative barycentric coordinates in any of the faces adjacent to " << VC); 
+  LIBFLATSURF_UNREACHABLE("Point " << point << " had no non-negative barycentric coordinates in any of the faces adjacent to " << VC);
 }
 
 template <typename Surface>

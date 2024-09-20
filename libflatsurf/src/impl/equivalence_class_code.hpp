@@ -19,12 +19,10 @@
 #ifndef LIBFLATSURF_EQUIVALENCE_CLASS_CODE_HPP
 #define LIBFLATSURF_EQUIVALENCE_CLASS_CODE_HPP
 
+#include <boost/operators.hpp>
 #include <functional>
 
-#include <boost/operators.hpp>
-
 #include "../../flatsurf/forward.hpp"
-
 
 namespace flatsurf {
 
@@ -45,19 +43,16 @@ struct EquivalenceClassCode : boost::equality_comparable<EquivalenceClassCode> {
   // Return a printable representation of this code.
   virtual std::string toString() const = 0;
 
-  friend
-  bool operator==(const EquivalenceClassCode& lhs, const EquivalenceClassCode& rhs);
+  friend bool operator==(const EquivalenceClassCode& lhs, const EquivalenceClassCode& rhs);
 
-  friend
-  std::ostream& operator<<(std::ostream&, const EquivalenceClassCode& code);
+  friend std::ostream& operator<<(std::ostream&, const EquivalenceClassCode& code);
 };
 
-}
+}  // namespace flatsurf
 
-template<>
+template <>
 struct std::hash<::flatsurf::EquivalenceClassCode> {
   size_t operator()(const ::flatsurf::EquivalenceClassCode&) const;
 };
 
 #endif
-

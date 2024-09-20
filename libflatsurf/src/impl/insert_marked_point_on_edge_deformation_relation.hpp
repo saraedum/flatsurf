@@ -22,8 +22,8 @@
 
 #include <iosfwd>
 
-#include "../../flatsurf/vertex.hpp"
 #include "../../flatsurf/half_edge.hpp"
+#include "../../flatsurf/vertex.hpp"
 #include "deformation_relation.hpp"
 
 namespace flatsurf {

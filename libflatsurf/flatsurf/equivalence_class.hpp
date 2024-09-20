@@ -31,16 +31,16 @@ class EquivalenceClass : boost::equality_comparable<EquivalenceClass<Surface>> {
   static_assert(std::is_same_v<Surface, std::decay_t<Surface>>, "type parameter must not have modifiers such as const");
 
  public:
-  EquivalenceClass(const Surface&, const Equivalence<Surface>&);
+  EquivalenceClass(const Surface &, const Equivalence<Surface> &);
 
   // Return the number of automorphisms of the elements of this equivalence class.
   size_t automorphisms() const;
 
   // Return a (possibly canonical) representative of this equivalence class.
-  const Surface& representative() const;
+  const Surface &representative() const;
 
   // Return whether two equivalence classes are equal.
-  bool operator==(const EquivalenceClass<Surface>&) const;
+  bool operator==(const EquivalenceClass<Surface> &) const;
 
   template <typename S>
   friend std::ostream &operator<<(std::ostream &, const EquivalenceClass<S> &);
@@ -51,11 +51,11 @@ class EquivalenceClass : boost::equality_comparable<EquivalenceClass<Surface>> {
   friend ImplementationOf<EquivalenceClass>;
 };
 
-}
+}  // namespace flatsurf
 
 template <typename Surface>
 struct std::hash<::flatsurf::EquivalenceClass<Surface>> {
-  size_t operator()(const ::flatsurf::EquivalenceClass<Surface>&) const;
+  size_t operator()(const ::flatsurf::EquivalenceClass<Surface> &) const;
 };
 
 #endif

@@ -20,10 +20,10 @@
 #ifndef LIBFLATSURF_FLAT_TRIANGULATION_COMBINATORICS_HPP
 #define LIBFLATSURF_FLAT_TRIANGULATION_COMBINATORICS_HPP
 
+#include <array>
 #include <boost/operators.hpp>
 #include <iosfwd>
 #include <vector>
-#include <array>
 
 #include "managed_movable.hpp"
 
@@ -58,7 +58,7 @@ class FlatTriangulationCombinatorics : boost::equality_comparable<FlatTriangulat
   FlatTriangulationCombinatorial slit(HalfEdge e) const;
 
   // Create an independent clone of this triangulation with relabeled edges.
-  FlatTriangulationCombinatorial relabel(const Permutation<HalfEdge>&) const;
+  FlatTriangulationCombinatorial relabel(const Permutation<HalfEdge> &) const;
 
   HalfEdge nextAtVertex(HalfEdge e) const;
   HalfEdge previousAtVertex(HalfEdge e) const;

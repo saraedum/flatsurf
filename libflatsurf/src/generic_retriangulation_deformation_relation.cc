@@ -28,8 +28,8 @@
 #include "../flatsurf/half_edge_set_iterator.hpp"
 #include "../flatsurf/orientation.hpp"
 #include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/path_iterator.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/saddle_connections.hpp"
 #include "../flatsurf/saddle_connections_by_length.hpp"
 #include "../flatsurf/saddle_connections_by_length_iterator.hpp"
@@ -37,8 +37,8 @@
 #include "../flatsurf/vector.hpp"
 #include "../flatsurf/vertex.hpp"
 #include "../flatsurf/vertical.hpp"
-#include "util/assert.ipp"
 #include "external/rx-ranges/include/rx/ranges.hpp"
+#include "util/assert.ipp"
 
 namespace flatsurf {
 
@@ -53,22 +53,19 @@ GenericRetriangulationDeformationRelation<Surface>::GenericRetriangulationDeform
   LIBFLATSURF_ASSERT(this->preimage.begin() != this->preimage.end(), "preimage must be a non-trivial path");
   LIBFLATSURF_ASSERT(this->preimage.begin()->surface() == *this->domain, "preimage must live in the domain");
   LIBFLATSURF_ASSERT(rx::zip(this->preimage, this->preimage | rx::skip_n(1)) | rx::all_of([&](const auto& connections) {
-      return domain.angle(Vertex::source(domain, std::get<0>(connections).target())) == 1
-        && std::get<0>(connections).ccw(std::get<1>(connections)) == CCW::COLLINEAR
-        && std::get<0>(connections).vector().orientation(std::get<1>(connections)) == ORIENTATION::SAME;
-  }), "Preimage must be a sequence of collinear saddle connections only interrupted by marked points but it is not.");
+    return domain.angle(Vertex::source(domain, std::get<0>(connections).target())) == 1 && std::get<0>(connections).ccw(std::get<1>(connections)) == CCW::COLLINEAR && std::get<0>(connections).vector().orientation(std::get<1>(connections)) == ORIENTATION::SAME;
+  }),
+      "Preimage must be a sequence of collinear saddle connections only interrupted by marked points but it is not.");
   LIBFLATSURF_ASSERT(rx::zip(this->image, this->image | rx::skip_n(1)) | rx::all_of([&](const auto& connections) {
-      return domain.angle(Vertex::source(codomain, std::get<0>(connections).target())) == 1
-        && std::get<0>(connections).ccw(std::get<1>(connections)) == CCW::COLLINEAR
-        && std::get<0>(connections).vector().orientation(std::get<1>(connections)) == ORIENTATION::SAME;
-  }), "Image must be a sequence of collinear saddle connections only interrupted by marked points but it is not.");
+    return domain.angle(Vertex::source(codomain, std::get<0>(connections).target())) == 1 && std::get<0>(connections).ccw(std::get<1>(connections)) == CCW::COLLINEAR && std::get<0>(connections).vector().orientation(std::get<1>(connections)) == ORIENTATION::SAME;
+  }),
+      "Image must be a sequence of collinear saddle connections only interrupted by marked points but it is not.");
   LIBFLATSURF_ASSERT(this->image.begin() != this->image.end(), "image must be a non-trivial path");
   LIBFLATSURF_ASSERT(this->image.begin()->surface() == *this->codomain, "image must live in the codomain");
   LIBFLATSURF_ASSERT(this->domain->angle(Vertex::source(*this->domain, this->preimage.begin()->source())) == this->codomain->angle(Vertex::source(*this->codomain, this->image.begin()->source())), "Paths in domain and codomain must be equivalent but the total angle at their starting points do not match.");
   LIBFLATSURF_ASSERT(this->preimage.begin()->vector().ccw(this->image.begin()->vector()) == CCW::COLLINEAR, "Preimage and image must be collinear but they are not.");
   LIBFLATSURF_ASSERT(this->preimage.begin()->vector().orientation(this->image.begin()->vector()) == ORIENTATION::SAME, "Preimage and image are not oriented identically. They do not define a retriangulation.");
-  LIBFLATSURF_ASSERT((this->preimage | rx::transform([](const auto& connection) { return connection.vector(); }) | rx::sum())
-      == (this->image | rx::transform([](const auto& connection) { return connection.vector(); }) | rx::sum()), "Preimage and image must describe the same saddle connection up to marked points but the sum of their vectors do not match.")
+  LIBFLATSURF_ASSERT((this->preimage | rx::transform([](const auto& connection) { return connection.vector(); }) | rx::sum()) == (this->image | rx::transform([](const auto& connection) { return connection.vector(); }) | rx::sum()), "Preimage and image must describe the same saddle connection up to marked points but the sum of their vectors do not match.")
 }
 
 template <typename Surface>
@@ -187,9 +184,9 @@ std::optional<Path<Surface>> GenericRetriangulationDeformationRelation<Surface>:
   Vector<T> vector_;
   while (true) {
     const auto search = SaddleConnection<Surface>::inSector(
-      this->codomain,
-      this->codomain->sector(*source_, this->codomain->fromHalfEdge(*source_), CCW::COUNTERCLOCKWISE, vector),
-      vector);
+        this->codomain,
+        this->codomain->sector(*source_, this->codomain->fromHalfEdge(*source_), CCW::COUNTERCLOCKWISE, vector),
+        vector);
 
     vector_ += search;
     image += search;

@@ -17,21 +17,20 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include "../flatsurf/half_edge.hpp"
-#include "../flatsurf/edge.hpp"
-
 #include "impl/linear_equivalence_walker.hpp"
+
+#include "../flatsurf/edge.hpp"
+#include "../flatsurf/half_edge.hpp"
 #include "impl/combinatorial_deformation_relation.hpp"
 #include "impl/deformation.impl.hpp"
 
 namespace flatsurf {
 
 template <typename Surface>
-LinearEquivalenceWalker<Surface>::LinearEquivalenceWalker(const Surface& surface, HalfEdge start, const NormalizationMatrix& normalizationMatrix):
+LinearEquivalenceWalker<Surface>::LinearEquivalenceWalker(const Surface& surface, HalfEdge start, const NormalizationMatrix& normalizationMatrix) :
   EquivalenceWalker<Surface, LinearEquivalenceWalker>(surface),
   combinatorialWalker(surface, start, std::get<0>(normalizationMatrix) * std::get<3>(normalizationMatrix) - std::get<1>(normalizationMatrix) * std::get<2>(normalizationMatrix) > 0 ? 1 : -1),
-  normalizationMatrix(normalizationMatrix)
-  {}
+  normalizationMatrix(normalizationMatrix) {}
 
 template <typename Surface>
 void LinearEquivalenceWalker<Surface>::append(Word& word, const Character& character) {
@@ -41,7 +40,6 @@ void LinearEquivalenceWalker<Surface>::append(Word& word, const Character& chara
 
 template <typename Surface>
 int LinearEquivalenceWalker<Surface>::cmp(const Character& lhs, const Character& rhs) {
-
   int cmp = CombinatorialEquivalenceWalker<Surface>::cmp(std::get<0>(lhs), std::get<0>(rhs));
 
   if (cmp != 0)
@@ -70,12 +68,12 @@ std::optional<typename LinearEquivalenceWalker<Surface>::Character> LinearEquiva
   if (!combinatorial)
     return std::nullopt;
 
-  const HalfEdge crossed = -combinatorialWalker.labeled[combinatorialWalker.steps-1];
+  const HalfEdge crossed = -combinatorialWalker.labeled[combinatorialWalker.steps - 1];
   auto normalized = this->surface->fromHalfEdge(crossed).applyMatrix(
-    std::get<0>(this->normalizationMatrix),
-    std::get<1>(this->normalizationMatrix),
-    std::get<2>(this->normalizationMatrix),
-    std::get<3>(this->normalizationMatrix));
+      std::get<0>(this->normalizationMatrix),
+      std::get<1>(this->normalizationMatrix),
+      std::get<2>(this->normalizationMatrix),
+      std::get<3>(this->normalizationMatrix));
 
   return std::tuple{*combinatorial, normalized};
 }
@@ -83,10 +81,10 @@ std::optional<typename LinearEquivalenceWalker<Surface>::Character> LinearEquiva
 template <typename Surface>
 Deformation<Surface> LinearEquivalenceWalker<Surface>::deformation(const Surface& normalization) const {
   const auto deformed = this->surface->applyMatrix(
-    std::get<0>(this->normalizationMatrix),
-    std::get<1>(this->normalizationMatrix),
-    std::get<2>(this->normalizationMatrix),
-    std::get<3>(this->normalizationMatrix));
+      std::get<0>(this->normalizationMatrix),
+      std::get<1>(this->normalizationMatrix),
+      std::get<2>(this->normalizationMatrix),
+      std::get<3>(this->normalizationMatrix));
 
   return ImplementationOf<Deformation<Surface>>::make(std::make_unique<CombinatorialDeformationRelation<Surface>>(deformed.codomain(), normalization, combinatorialWalker.relabeling())) * deformed;
 }
@@ -96,14 +94,15 @@ Surface LinearEquivalenceWalker<Surface>::normalization() const {
   const auto combinatorialNormalization = combinatorialWalker.normalization();
 
   return combinatorialNormalization.applyMatrix(
-    std::get<0>(this->normalizationMatrix),
-    std::get<1>(this->normalizationMatrix),
-    std::get<2>(this->normalizationMatrix),
-    std::get<3>(this->normalizationMatrix)).codomain().clone();
+                                       std::get<0>(this->normalizationMatrix),
+                                       std::get<1>(this->normalizationMatrix),
+                                       std::get<2>(this->normalizationMatrix),
+                                       std::get<3>(this->normalizationMatrix))
+      .codomain()
+      .clone();
 }
 
-}
-
+}  // namespace flatsurf
 
 #include "../flatsurf/vector.hpp"
 #include "util/instantiate.ipp"

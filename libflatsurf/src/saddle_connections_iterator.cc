@@ -106,7 +106,7 @@ CCW ImplementationOf<SaddleConnectionsIterator<Surface>>::ccw(const Boundary& lh
     }
     return ccw(lhs, static_cast<const Vector<T>&>(rhs));
   },
-  lhs);
+      lhs);
 }
 
 template <typename Surface>

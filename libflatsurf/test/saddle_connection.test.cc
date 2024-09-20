@@ -20,10 +20,10 @@
 #include <exact-real/element.hpp>
 
 #include "../flatsurf/ccw.hpp"
-#include "../flatsurf/orientation.hpp"
-#include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/half_edge_set.hpp"
 #include "../flatsurf/half_edge_set_iterator.hpp"
+#include "../flatsurf/orientation.hpp"
+#include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/vertical.hpp"
 #include "cereal.helpers.hpp"
 #include "generators/saddle_connection_generator.hpp"
@@ -65,7 +65,6 @@ TEMPLATE_TEST_CASE("Angle between Saddle Connections", "[SaddleConnection][angle
     // one we find at each vertex.
     const auto sourceVertex = Vertex::source(connection.source(), *surface);
     if (connection.source() == *sourceVertex.outgoing().begin()) {
-
       const auto other = GENERATE_REF(saddleConnections(surface, Vertex::source(connection.source(), *surface)));
       CAPTURE(other);
 
@@ -128,7 +127,6 @@ TEMPLATE_TEST_CASE("Saddle Connection Constructors", "[SaddleConnection][constru
       REQUIRE(connection == SaddleConnection<Surface>::counterclockwise(*surface, connection, Vertical<Surface>(*surface, connection)));
     }
   }
-
 }
 
 TEMPLATE_TEST_CASE("Serialization of a SaddleConnection", "[SaddleConnection][save][load]", (long long), (mpz_class), (mpq_class), (renf_elem_class), (exactreal::Element<exactreal::IntegerRing>), (exactreal::Element<exactreal::RationalField>), (exactreal::Element<exactreal::NumberField>)) {

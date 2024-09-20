@@ -20,8 +20,8 @@
 #ifndef LIBFLATSURF_POINT_IMPL_HPP
 #define LIBFLATSURF_POINT_IMPL_HPP
 
-#include "../../flatsurf/point.hpp"
 #include "../../flatsurf/half_edge.hpp"
+#include "../../flatsurf/point.hpp"
 #include "read_only.hpp"
 
 namespace flatsurf {
@@ -67,4 +67,3 @@ class ImplementationOf<Point<Surface>> {
 
 }  // namespace flatsurf
 #endif
-

@@ -25,10 +25,10 @@
 
 #include <memory>
 
-#include "../../flatsurf/equivalence.hpp"
 #include "../../flatsurf/edge.hpp"
-#include "surface_generator.hpp"
+#include "../../flatsurf/equivalence.hpp"
 #include "../external/catch2/single_include/catch2/catch.hpp"
+#include "surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -65,7 +65,8 @@ class EquivalenceGenerator : public Catch::Generators::IGenerator<Equivalence<Fl
   }
 
  public:
-  EquivalenceGenerator(std::shared_ptr<const FlatTriangulation<T>> surface) : surface(surface), state(EQUIVALENCE::COMBINATORIAL_PRESERVE_ORIENTATION), current(make(state)) {}
+  EquivalenceGenerator(std::shared_ptr<const FlatTriangulation<T>> surface) :
+    surface(surface), state(EQUIVALENCE::COMBINATORIAL_PRESERVE_ORIENTATION), current(make(state)) {}
 
   const Equivalence<FlatTriangulation<T>>& get() const override {
     return current;
@@ -93,6 +94,6 @@ Catch::Generators::GeneratorWrapper<Equivalence<FlatTriangulation<T>>> equivalen
   return Catch::Generators::GeneratorWrapper<Equivalence<FlatTriangulation<T>>>(std::unique_ptr<Catch::Generators::IGenerator<Equivalence<FlatTriangulation<T>>>>(new EquivalenceGenerator<T>(surface)));
 }
 
-}
+}  // namespace flatsurf::test
 
 #endif

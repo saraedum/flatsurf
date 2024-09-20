@@ -21,19 +21,19 @@
 #define LIBFLATSURF_EQUIVALENCE_WALKER_HPP
 
 #include <memory>
-#include <vector>
 #include <optional>
-
-#include "equivalence_class_code.hpp"
+#include <vector>
 
 #include "../util/assert.ipp"
+#include "equivalence_class_code.hpp"
 #include "read_only.hpp"
 
 namespace flatsurf {
 
 template <typename Surface, typename Walker>
 struct EquivalenceWalker {
-  EquivalenceWalker(const Surface& surface): surface(surface) {}
+  EquivalenceWalker(const Surface& surface) :
+    surface(surface) {}
 
   // Return the minimal code word amongst the code words produced by ``walkers``.
   // Also returns a (possibly canonical) normalization of the surface worked on
@@ -69,7 +69,7 @@ struct EquivalenceWalker {
 
     std::vector<Walker*> minimalWalkers;
 
-    for (Walker& walker: walkers)
+    for (Walker& walker : walkers)
       minimalWalkers.push_back(&walker);
 
     while (true) {
@@ -144,6 +144,6 @@ struct EquivalenceWalker {
   ReadOnly<Surface> surface;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

@@ -21,10 +21,10 @@
 
 #include <exact-real/arb.hpp>
 #include <exact-real/integer_ring.hpp>
+#include <exact-real/module.hpp>
 #include <exact-real/number_field.hpp>
 #include <exact-real/rational_field.hpp>
 #include <exact-real/yap/arb.hpp>
-#include <exact-real/module.hpp>
 #include <functional>
 #include <iomanip>
 #include <iosfwd>
@@ -270,7 +270,7 @@ Deformation<FlatTriangulation<T>> FlatTriangulation<T>::operator+(const OddHalfE
     Tracked<HalfEdgeMap<HalfEdge>> preimage(combinatorial, HalfEdgeMap<HalfEdge>(combinatorial, [](HalfEdge he) { return he; }),
         Tracked<HalfEdgeMap<HalfEdge>>::defaultFlip,
         [&](auto &self, const FlatTriangulationCombinatorial &surface, Edge e) {
-          for (const auto& halfEdge : {e.positive(), e.negative()}) {
+          for (const auto &halfEdge : {e.positive(), e.negative()}) {
             union_(self[surface.nextInFace(halfEdge)], self[-surface.previousInFace(halfEdge)]);
             union_(self[-surface.nextInFace(halfEdge)], self[surface.previousInFace(halfEdge)]);
           }
@@ -302,7 +302,7 @@ Deformation<FlatTriangulation<T>> FlatTriangulation<T>::operator+(const OddHalfE
         *this,
         codomain,
         OddHalfEdgeMap<Path<FlatTriangulation>>(*this, [&](HalfEdge he) {
-          for (const HalfEdge& image : codomain.halfEdges()) {
+          for (const HalfEdge &image : codomain.halfEdges()) {
             if (find_((*preimage)[image]) == find_(he)) {
               LIBFLATSURF_ASSERT(vectors->get(image) == fromHalfEdge(he) + shift.get(he), "Half edge " << he << " should have been shifted from " << fromHalfEdge(he) << " to " << fromHalfEdge(he) + shift.get(he) << " but instead it became " << image << " which is " << vectors->get(image));
               return Path{SaddleConnection<FlatTriangulation>(codomain, image)};
@@ -633,7 +633,7 @@ Deformation<FlatTriangulation<T>> FlatTriangulation<T>::insertAt(HalfEdge &nextT
 }
 
 template <typename T>
-Deformation<FlatTriangulation<T>> FlatTriangulation<T>::insert(const Point<FlatTriangulation<T>>& point) const {
+Deformation<FlatTriangulation<T>> FlatTriangulation<T>::insert(const Point<FlatTriangulation<T>> &point) const {
   LIBFLATSURF_CHECK_ARGUMENT(!point.vertex(), "point " << point << " is already a vertex of " << *this);
 
   const auto edge = point.edge();
@@ -661,7 +661,7 @@ void FlatTriangulation<T>::delaunay() {
 }
 
 template <typename T>
-Deformation<FlatTriangulation<T>> FlatTriangulation<T>::relabel(const Permutation<HalfEdge>& relabeling) const {
+Deformation<FlatTriangulation<T>> FlatTriangulation<T>::relabel(const Permutation<HalfEdge> &relabeling) const {
   // Build the combinatorial image (and validate arguments.)
   auto combinatorial = this->combinatorial().relabel(relabeling);
 
@@ -726,26 +726,26 @@ FlatTriangulation<T> FlatTriangulation<T>::scale(const mpz_class &scalar) const 
 }
 
 template <typename T>
-Deformation<FlatTriangulation<T>> FlatTriangulation<T>::applyMatrix(const T& a, const T& b, const T& c, const T& d) const {
+Deformation<FlatTriangulation<T>> FlatTriangulation<T>::applyMatrix(const T &a, const T &b, const T &c, const T &d) const {
   LIBFLATSURF_CHECK_ARGUMENT(a * d - b * c != 0, "matrix must have non-zero determinant");
 
   if (this->hasBoundary())
     throw std::logic_error("not implemented: cannot transform surface with boundary yet");
 
   FlatTriangulationCombinatorial combinatorial = [&]() {
-    if (a*d - b*c < 0)
+    if (a * d - b * c < 0)
       return FlatTriangulationCombinatorial{~self->vertices};
     return this->combinatorial().clone();
   }();
 
   const FlatTriangulation codomain{std::move(combinatorial), [&](HalfEdge halfEdge) {
-    return this->fromHalfEdge(halfEdge).applyMatrix(a, b, c, d);
-  }};
+                                     return this->fromHalfEdge(halfEdge).applyMatrix(a, b, c, d);
+                                   }};
 
   return ImplementationOf<Deformation<FlatTriangulation>>::make(std::make_unique<LinearDeformationRelation<FlatTriangulation>>(
-    *this,
-    codomain,
-    a, b, c, d));
+      *this,
+      codomain,
+      a, b, c, d));
 }
 
 template <typename T>
@@ -774,7 +774,7 @@ bool FlatTriangulation<T>::inPlane(const HalfEdge plane, const Vector<T> &direct
 }
 
 template <typename T>
-HalfEdge FlatTriangulation<T>::sector(HalfEdge plane, const Vector<T>& direction) const {
+HalfEdge FlatTriangulation<T>::sector(HalfEdge plane, const Vector<T> &direction) const {
   LIBFLATSURF_CHECK_ARGUMENT(direction.ccw(fromHalfEdge(plane)) != CCW::COLLINEAR || direction.orientation(fromHalfEdge(plane)) != ORIENTATION::OPPOSITE, "vector must not be opposite to the HalfEdge defining the plane");
 
   if (fromHalfEdge(plane).ccw(direction) == CCW::CLOCKWISE) {
@@ -790,7 +790,7 @@ HalfEdge FlatTriangulation<T>::sector(HalfEdge plane, const Vector<T>& direction
 }
 
 template <typename T>
-HalfEdge FlatTriangulation<T>::sector(HalfEdge start, CCW ccw, const Vector<T>& direction, bool exclude) const {
+HalfEdge FlatTriangulation<T>::sector(HalfEdge start, CCW ccw, const Vector<T> &direction, bool exclude) const {
   LIBFLATSURF_CHECK_ARGUMENT(ccw != CCW::COLLINEAR, "cannot rotate in collinear direction");
 
   if (fromHalfEdge(start).ccw(direction) == CCW::COLLINEAR && fromHalfEdge(start).orientation(direction) == ORIENTATION::SAME) {
@@ -824,7 +824,7 @@ HalfEdge FlatTriangulation<T>::sector(HalfEdge start, CCW ccw, const Vector<T>& 
 }
 
 template <typename T>
-HalfEdge FlatTriangulation<T>::sector(HalfEdge sector, const Vector<T>& start, CCW ccw, const Vector<T>& direction, bool exclude) const {
+HalfEdge FlatTriangulation<T>::sector(HalfEdge sector, const Vector<T> &start, CCW ccw, const Vector<T> &direction, bool exclude) const {
   LIBFLATSURF_CHECK_ARGUMENT(ccw != CCW::COLLINEAR, "cannot rotate in collinear direction");
   LIBFLATSURF_CHECK_ARGUMENT(inSector(sector, start), "start direction must be in the start sector");
 
@@ -848,17 +848,17 @@ HalfEdge FlatTriangulation<T>::sector(HalfEdge sector, const Vector<T>& start, C
 }
 
 template <typename T>
-HalfEdge FlatTriangulation<T>::sector(HalfEdge plane, const Vertical<FlatTriangulation<T>>& vertical, const Vector<T>& direction) const {
+HalfEdge FlatTriangulation<T>::sector(HalfEdge plane, const Vertical<FlatTriangulation<T>> &vertical, const Vector<T> &direction) const {
   LIBFLATSURF_CHECK_ARGUMENT(inHalfPlane(plane, vertical), "vertical and half edge defining half plane must enclose an angle <π");
   LIBFLATSURF_CHECK_ARGUMENT(direction.orientation(vertical) == ORIENTATION::SAME, "direction must be in the same half plane as the vertical");
 
   // Both plane and direction enclose less than a π angle with vertical. We
   // move plane clockwise to where the half plane starts and then swipe
   // counterclockwise until we find the sector containing direction.
-  while(inHalfPlane(plane, vertical))
+  while (inHalfPlane(plane, vertical))
     plane = this->previousAtVertex(plane);
 
-  while(!inSector(plane, direction))
+  while (!inSector(plane, direction))
     plane = this->nextAtVertex(plane);
 
   return plane;
@@ -880,9 +880,9 @@ bool FlatTriangulation<T>::operator==(const FlatTriangulation<T> &rhs) const {
   if (this->combinatorial() != rhs.combinatorial())
     return false;
 
-  for (const auto& edge: this->edges()) {
-    const auto& v = fromHalfEdge(edge.positive());
-    const auto& w = rhs.fromHalfEdge(edge.positive());
+  for (const auto &edge : this->edges()) {
+    const auto &v = fromHalfEdge(edge.positive());
+    const auto &w = rhs.fromHalfEdge(edge.positive());
 
     // Since we want to decide whether surfaces are indistinguishable, we treat
     // vectors defined over different rings as different (even if they are the
@@ -1222,10 +1222,10 @@ namespace std {
 using namespace flatsurf;
 
 template <typename T>
-size_t hash<FlatTriangulation<T>>::operator()(const FlatTriangulation<T>& self) const {
+size_t hash<FlatTriangulation<T>>::operator()(const FlatTriangulation<T> &self) const {
   size_t ret = hash<Permutation<HalfEdge>>{}(self.self->vertices);
 
-  for (const auto& edge : self.edges()) {
+  for (const auto &edge : self.edges()) {
     ret = hash_combine(ret, hash<Vector<T>>{}(self.fromHalfEdge(edge.positive())));
   }
 

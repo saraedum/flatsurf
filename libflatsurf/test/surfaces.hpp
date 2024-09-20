@@ -339,7 +339,6 @@ auto make12345034015233() {
   return std::make_shared<FlatTriangulation<typename R2::Coordinate>>(std::move(*make12345034015233Combinatorial()), vectors);
 }
 
-
 }  // namespace flatsurf::test
 
 #endif

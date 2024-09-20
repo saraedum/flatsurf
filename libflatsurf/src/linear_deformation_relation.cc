@@ -29,8 +29,8 @@
 #include "../flatsurf/flat_triangulation.hpp"
 #include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/path_iterator.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/vector.hpp"
 #include "../flatsurf/vertex.hpp"
@@ -87,11 +87,11 @@ std::optional<Path<Surface>> LinearDeformationRelation<Surface>::operator()(cons
     }
 
     path_.push_back(
-      SaddleConnection(
-        *this->codomain,
-        this->codomain->sector(source, CCW::COUNTERCLOCKWISE, chain),
-        this->codomain->sector(target, CCW::COUNTERCLOCKWISE, -chain),
-        chain));
+        SaddleConnection(
+            *this->codomain,
+            this->codomain->sector(source, CCW::COUNTERCLOCKWISE, chain),
+            this->codomain->sector(target, CCW::COUNTERCLOCKWISE, -chain),
+            chain));
   }
 
   return path_;

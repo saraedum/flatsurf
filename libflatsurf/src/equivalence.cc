@@ -17,20 +17,19 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
+#include "../flatsurf/equivalence.hpp"
+
 #include <ostream>
 #include <stdexcept>
 
 #include "../flatsurf/deformation.hpp"
-#include "../flatsurf/equivalence.hpp"
-#include "../flatsurf/equivalence_class.hpp"
 #include "../flatsurf/edge.hpp"
+#include "../flatsurf/equivalence_class.hpp"
 #include "../flatsurf/vector.hpp"
+#include "external/rx-ranges/include/rx/ranges.hpp"
 #include "impl/combinatorial_equivalence.hpp"
 #include "impl/linear_equivalence.hpp"
-
 #include "util/assert.ipp"
-
-#include "external/rx-ranges/include/rx/ranges.hpp"
 
 namespace flatsurf {
 
@@ -111,7 +110,7 @@ std::ostream& operator<<(std::ostream& os, const Equivalence<Surface>& equivalen
   return os << equivalence.self->toString();
 }
 
-}
+}  // namespace flatsurf
 
 // Instantiations of templates so implementations are generated for the linker
 #include "util/instantiate.ipp"

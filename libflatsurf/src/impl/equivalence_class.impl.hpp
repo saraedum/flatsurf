@@ -20,10 +20,9 @@
 #ifndef LIBFLATSURF_EQUIVALENCE_CLASS_IMPL_HPP
 #define LIBFLATSURF_EQUIVALENCE_CLASS_IMPL_HPP
 
-#include "../../flatsurf/equivalence_class.hpp"
 #include "../../flatsurf/equivalence.hpp"
+#include "../../flatsurf/equivalence_class.hpp"
 #include "equivalence_class_code.hpp"
-
 #include "read_only.hpp"
 
 namespace flatsurf {
@@ -43,6 +42,6 @@ class ImplementationOf<EquivalenceClass<Surface>> {
   friend std::hash<EquivalenceClass<Surface>>;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

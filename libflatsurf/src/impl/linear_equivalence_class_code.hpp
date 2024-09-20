@@ -20,8 +20,8 @@
 #ifndef LIBFLATSURF_LINEAR_EQUIVALENCE_CLASS_CODE_HPP
 #define LIBFLATSURF_LINEAR_EQUIVALENCE_CLASS_CODE_HPP
 
-#include "equivalence_class_code.hpp"
 #include "combinatorial_equivalence_class_code.hpp"
+#include "equivalence_class_code.hpp"
 
 namespace flatsurf {
 
@@ -40,7 +40,6 @@ struct LinearEquivalenceClassCode : public EquivalenceClassCode {
   Word word;
 };
 
-}
+}  // namespace flatsurf
 
 #endif
-

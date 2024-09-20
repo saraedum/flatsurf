@@ -21,14 +21,14 @@
 
 #include <ostream>
 
-#include "../flatsurf/half_edge.hpp"
-#include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/edge.hpp"
+#include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/half_edge_set.hpp"
 #include "../flatsurf/half_edge_set_iterator.hpp"
-#include "impl/point.impl.hpp"
+#include "../flatsurf/path.hpp"
+#include "../flatsurf/point.hpp"
 #include "impl/generic_retriangulation_deformation_relation.hpp"
+#include "impl/point.impl.hpp"
 #include "util/assert.ipp"
 
 namespace flatsurf {
@@ -64,7 +64,7 @@ Point<Surface> InsertMarkedPointInFaceDeformationRelation<Surface>::operator()(c
 
     // In the codomain (A, B, C) do not form a face anymore. The point V was
     // inserted as a vertex in the interior of that face.
-    
+
     // Write A in coordinates of (V, B, C).
     auto A = ImplementationOf<Point<Surface>>{*this->codomain, AB, T(1), T(), T()};
     const auto BV = this->codomain->nextInFace(AB);
@@ -80,7 +80,7 @@ Point<Surface> InsertMarkedPointInFaceDeformationRelation<Surface>::operator()(c
       return Point{*this->codomain, -BV, v_p, b_p, c_p};
   }
 
-  LIBFLATSURF_UNREACHABLE("Point " << point << " had no non-negative barycentric coordinates in any of the faces surrounding the inserted vertex " << V); 
+  LIBFLATSURF_UNREACHABLE("Point " << point << " had no non-negative barycentric coordinates in any of the faces surrounding the inserted vertex " << V);
 }
 
 template <typename Surface>

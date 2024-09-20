@@ -17,27 +17,27 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
+#include "impl/linear_equivalence_class_code.hpp"
+
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
 #include "../flatsurf/fmt.hpp"
-
-#include "impl/linear_equivalence_class_code.hpp"
-
 #include "util/hash.ipp"
 
 namespace flatsurf {
 
 template <typename Surface>
-LinearEquivalenceClassCode<Surface>::LinearEquivalenceClassCode(Word word) : word(std::move(word)) {}
+LinearEquivalenceClassCode<Surface>::LinearEquivalenceClassCode(Word word) :
+  word(std::move(word)) {}
 
 template <typename Surface>
 size_t LinearEquivalenceClassCode<Surface>::hash() const {
   const auto& combinatorial = std::get<0>(word);
 
   size_t hash = combinatorial.size();
-  for (const auto& word: combinatorial)
-    for (const auto& character: word)
+  for (const auto& word : combinatorial)
+    for (const auto& character : word)
       hash = hash_combine(hash, character);
 
   const auto& geometric = std::get<1>(word);
@@ -61,7 +61,7 @@ std::string LinearEquivalenceClassCode<Surface>::toString() const {
   return fmt::format("({}, {})", std::get<0>(word), std::get<1>(word));
 }
 
-}
+}  // namespace flatsurf
 
 #include "../flatsurf/vector.hpp"
 #include "util/instantiate.ipp"

@@ -21,10 +21,10 @@
 #ifndef LIBFLATSURF_POINT_HPP
 #define LIBFLATSURF_POINT_HPP
 
-#include <boost/operators.hpp>
-#include <optional>
-#include <iosfwd>
 #include <array>
+#include <boost/operators.hpp>
+#include <iosfwd>
+#include <optional>
 
 #include "copyable.hpp"
 #include "serializable.hpp"
@@ -69,10 +69,10 @@ class Point : Serializable<Point<Surface>>,
   // Points that were defined with coordinates on different faces get correctly
   // identified by this method if they are on a shared edge or vertex of the
   // faces.
-  bool operator==(const Point &other) const;
+  bool operator==(const Point& other) const;
 
   // Return the surface this point is defined on.
-  const Surface &surface() const;
+  const Surface& surface() const;
 
   // Return whether this point is a vertex of the triangulation.
   std::optional<Vertex> vertex() const;
@@ -82,7 +82,7 @@ class Point : Serializable<Point<Surface>>,
 
   // Return a face this point is in. i.e., a half edge such that
   // coordinates(face) produces non-negative weights.
-  HalfEdge face() const;  
+  HalfEdge face() const;
 
   // Return whether this point is in ``face``, i.e., whether it has all
   // non-negative ``coordinates`` in this face.
@@ -106,7 +106,7 @@ class Point : Serializable<Point<Surface>>,
   Vector<T> vector(HalfEdge origin) const;
 
   template <typename S>
-  friend std::ostream &operator<<(std::ostream &, const Point<S> &);
+  friend std::ostream& operator<<(std::ostream&, const Point<S>&);
 
  private:
   Copyable<Point> self;
@@ -116,13 +116,13 @@ class Point : Serializable<Point<Surface>>,
 };
 
 template <typename Surface, typename... T>
-Point(const Surface &, T &&...) -> Point<Surface>;
+Point(const Surface&, T&&...) -> Point<Surface>;
 
 }  // namespace flatsurf
 
 template <typename Surface>
 struct std::hash<flatsurf::Point<Surface>> {
-  size_t operator()(const flatsurf::Point<Surface> &) const;
+  size_t operator()(const flatsurf::Point<Surface>&) const;
 };
 
 #endif

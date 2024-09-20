@@ -23,9 +23,9 @@
 #include <fmt/ostream.h>
 
 #include <intervalxt/dynamical_decomposition.hpp>
+#include <intervalxt/fmt.hpp>
 #include <intervalxt/interval_exchange_transformation.hpp>
 #include <intervalxt/label.hpp>
-#include <intervalxt/fmt.hpp>
 #include <ostream>
 #include <unordered_map>
 

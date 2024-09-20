@@ -17,24 +17,24 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <unordered_set>
+#include "impl/combinatorial_equivalence_walker.hpp"
 
 #include <fmt/format.h>
 #include <fmt/ranges.h>
 
+#include <unordered_set>
+
+#include "../flatsurf/edge.hpp"
 #include "../flatsurf/fmt.hpp"
 #include "../flatsurf/half_edge.hpp"
-#include "../flatsurf/edge.hpp"
 #include "../flatsurf/odd_half_edge_map.hpp"
-
-#include "impl/combinatorial_equivalence_walker.hpp"
 #include "impl/combinatorial_deformation_relation.hpp"
 #include "impl/deformation.impl.hpp"
 
 namespace flatsurf {
 
 template <typename Surface>
-CombinatorialEquivalenceWalker<Surface>::CombinatorialEquivalenceWalker(const Surface& surface, HalfEdge start, int orientation):
+CombinatorialEquivalenceWalker<Surface>::CombinatorialEquivalenceWalker(const Surface& surface, HalfEdge start, int orientation) :
   EquivalenceWalker<Surface, CombinatorialEquivalenceWalker>(surface),
   orientation(orientation) {
   LIBFLATSURF_ASSERT(orientation == -1 || orientation == 1, "orientation must be -1 or 1 but was " << orientation);
@@ -119,8 +119,8 @@ int CombinatorialEquivalenceWalker<Surface>::label(const Surface&, const HalfEdg
     const auto label = labels.find(-halfEdge);
 
     if (label != std::end(labels))
-        // We have seen this edge before.
-        return -label->second;
+      // We have seen this edge before.
+      return -label->second;
   }
 
   // We have never seen this edge before. Label it.
@@ -145,9 +145,9 @@ template <typename Surface>
 std::unordered_map<HalfEdge, HalfEdge> CombinatorialEquivalenceWalker<Surface>::relabeling() const {
   std::unordered_map<HalfEdge, HalfEdge> permutation;
 
-  std::vector<bool> seen(2*this->surface->size());
+  std::vector<bool> seen(2 * this->surface->size());
 
-  for (const auto& preimage: this->surface->halfEdges()) {
+  for (const auto& preimage : this->surface->halfEdges()) {
     auto image = labels.find(preimage);
 
     if (image != std::end(labels)) {
@@ -164,13 +164,12 @@ std::unordered_map<HalfEdge, HalfEdge> CombinatorialEquivalenceWalker<Surface>::
     permutation[preimage] = -(image->second + 1);
   }
 
-  LIBFLATSURF_ASSERT(permutation.size() == 2*this->surface->size(), "relabeling not defined on all half edges of surface");
+  LIBFLATSURF_ASSERT(permutation.size() == 2 * this->surface->size(), "relabeling not defined on all half edges of surface");
 
   return permutation;
 }
 
-}
-
+}  // namespace flatsurf
 
 #include "../flatsurf/vector.hpp"
 #include "util/instantiate.ipp"

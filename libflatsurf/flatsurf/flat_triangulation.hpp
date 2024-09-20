@@ -75,19 +75,18 @@ class FlatTriangulation : public FlatTriangulationCombinatorics<FlatTriangulatio
 
   // Create an independent clone of this triangulation with an added vertex at
   // ``p`` which is not a vertex already.
-  Deformation<FlatTriangulation<T>> insert(const Point<FlatTriangulation>& p) const;
+  Deformation<FlatTriangulation<T>> insert(const Point<FlatTriangulation> &p) const;
 
   // Create an independent clone of this triangulation with relabeled edges.
-  Deformation<FlatTriangulation<T>> relabel(const Permutation<HalfEdge>&) const;
+  Deformation<FlatTriangulation<T>> relabel(const Permutation<HalfEdge> &) const;
 
   // Create an independent clone of this triangulation with all vectors scaled
   // by c.
-  [[deprecated("Use applyMatrix instead")]]
-  FlatTriangulation<T> scale(const mpz_class &c) const;
+  [[deprecated("Use applyMatrix instead")]] FlatTriangulation<T> scale(const mpz_class &c) const;
 
   // Create an independent clone of this triangulation with all vectors
   // transformed by this 2×2.
-  Deformation<FlatTriangulation<T>> applyMatrix(const T& a, const T& b, const T& c, const T& d) const;
+  Deformation<FlatTriangulation<T>> applyMatrix(const T &a, const T &b, const T &c, const T &d) const;
 
   // Create an independent clone of this triangulation with an edded boundary
   // at the half edge e by removing the identification of the two corresponding
@@ -110,8 +109,7 @@ class FlatTriangulation : public FlatTriangulationCombinatorics<FlatTriangulatio
   // transforming them subject to the same linear transformation (note that
   // that transformation might have negative determinant, i.e., the order of
   // half edges in a face might change under this map.)
-  [[deprecated("Use Equivalence::isomorphisms() instead")]]
-  std::optional<Deformation<FlatTriangulation<T>>> isomorphism(
+  [[deprecated("Use Equivalence::isomorphisms() instead")]] std::optional<Deformation<FlatTriangulation<T>>> isomorphism(
       const FlatTriangulation &,
       ISOMORPHISM kind,
       std::function<bool(const T &, const T &, const T &, const T &)> = [](const T &a, const T &b, const T &c, const T &d) { return a == 1 && b == 0 && c == 0 && d == 1; },
@@ -133,7 +131,7 @@ class FlatTriangulation : public FlatTriangulationCombinatorics<FlatTriangulatio
   int angle(const Vertex &) const;
 
   // Return the total angle at this point as a multiple of 2π.
-  int angle(const Point<FlatTriangulation>&) const;
+  int angle(const Point<FlatTriangulation> &) const;
 
   // Return whether this direction is in the sector counterclockwise next to
   // the half edge (including the half edge but not including the following
@@ -166,18 +164,18 @@ class FlatTriangulation : public FlatTriangulationCombinatorics<FlatTriangulatio
   // If walking clockwise, walk at least one step, i.e., if the initial sector
   // contains the direction in it interior, it is ignored.
   // We cannot walk in "collinear" direction.
-  HalfEdge sector(HalfEdge, CCW ccw, const Vector<T>& direction, bool exclude=false) const;
+  HalfEdge sector(HalfEdge, CCW ccw, const Vector<T> &direction, bool exclude = false) const;
 
   // Return the first sector containing ``direction`` walking in direction
   // ``ccw`` from ``start`` (in sector ``sector``.)
   // If ``start`` and ``direction`` are equal, return ``sector``, unless
   // ``exclude`` is set.
-  HalfEdge sector(HalfEdge sector, const Vector<T>& start, CCW ccw, const Vector<T>& direction, bool exclude=false) const;
+  HalfEdge sector(HalfEdge sector, const Vector<T> &start, CCW ccw, const Vector<T> &direction, bool exclude = false) const;
 
   // Return the sector containing this direction in the half plane defined by
   // the vertical which has an angle strictly less than π with the provided
   // half edge.
-  HalfEdge sector(HalfEdge, const Vertical<FlatTriangulation>&, const Vector<T>&) const;
+  HalfEdge sector(HalfEdge, const Vertical<FlatTriangulation> &, const Vector<T> &) const;
 
   const Vector<T> &fromHalfEdge(HalfEdge) const;
 

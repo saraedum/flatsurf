@@ -128,7 +128,7 @@ TEMPLATE_TEST_CASE("Exact Vectors", "[Vector][constructor][ccw][bool][operator*]
     const V v{2, 3};
 
     REQUIRE(v.applyMatrix(T(1), T(), T(), T(1)) == v);
-    REQUIRE(v.applyMatrix(T(2), T(), T(), T(2)) == 2*v);
+    REQUIRE(v.applyMatrix(T(2), T(), T(), T(2)) == 2 * v);
     REQUIRE(v.applyMatrix(T(1), T(2), T(1), T(1)).applyMatrix(T(-1), T(2), T(1), T(-1)) == v);
   }
 }

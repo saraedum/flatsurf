@@ -17,16 +17,14 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-
 #ifndef LIBFLATSURF_LINEAR_EQUIVALENCE_HPP
 #define LIBFLATSURF_LINEAR_EQUIVALENCE_HPP
 
 #include <variant>
 
 #include "../../flatsurf/equivalence.hpp"
-
-#include "equivalence_class_code.hpp"
 #include "equivalence.impl.hpp"
+#include "equivalence_class_code.hpp"
 
 namespace flatsurf {
 
@@ -39,8 +37,8 @@ struct LinearEquivalence : ImplementationOf<Equivalence<Surface>> {
 
   enum class GROUP {
     TRIVIAL,  // unlabeled()
-    SL,  // areaPreserving()
-    GL, // linear()
+    SL,       // areaPreserving()
+    GL,       // linear()
   };
 
   using Normalization = std::variant<GROUP, std::function<Matrix(const Surface&, HalfEdge, HalfEdge)>>;
@@ -53,7 +51,7 @@ struct LinearEquivalence : ImplementationOf<Equivalence<Surface>> {
 
   Matrix normalize(const Surface&, HalfEdge, HalfEdge) const;
 
-  static Matrix orthogonalize(const Surface&, HalfEdge, HalfEdge);  // implements areaPreserving()
+  static Matrix orthogonalize(const Surface&, HalfEdge, HalfEdge);   // implements areaPreserving()
   static Matrix orthonormalize(const Surface&, HalfEdge, HalfEdge);  // implements linear()
 
   template <typename S>
@@ -64,6 +62,6 @@ struct LinearEquivalence : ImplementationOf<Equivalence<Surface>> {
   Normalization normalization;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

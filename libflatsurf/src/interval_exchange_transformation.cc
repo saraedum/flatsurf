@@ -17,28 +17,27 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <memory>
-#include <ostream>
-#include <unordered_set>
-#include <vector>
-
 #include <fmt/format.h>
 
 #include <boost/type_erasure/any_cast.hpp>
 #include <intervalxt/forward.hpp>
-#include <intervalxt/sample/lengths.hpp>
-#include <intervalxt/sample/integer_coefficients.hpp>
-#include <intervalxt/sample/integer_floor_division.hpp>
-#include <intervalxt/sample/mpz_coefficients.hpp>
-#include <intervalxt/sample/mpz_floor_division.hpp>
-#include <intervalxt/sample/mpq_coefficients.hpp>
-#include <intervalxt/sample/mpq_floor_division.hpp>
-#include <intervalxt/sample/renf_elem_coefficients.hpp>
-#include <intervalxt/sample/renf_elem_floor_division.hpp>
-#include <intervalxt/sample/element_coefficients.hpp>
-#include <intervalxt/sample/element_floor_division.hpp>
 #include <intervalxt/interval_exchange_transformation.hpp>
 #include <intervalxt/label.hpp>
+#include <intervalxt/sample/element_coefficients.hpp>
+#include <intervalxt/sample/element_floor_division.hpp>
+#include <intervalxt/sample/integer_coefficients.hpp>
+#include <intervalxt/sample/integer_floor_division.hpp>
+#include <intervalxt/sample/lengths.hpp>
+#include <intervalxt/sample/mpq_coefficients.hpp>
+#include <intervalxt/sample/mpq_floor_division.hpp>
+#include <intervalxt/sample/mpz_coefficients.hpp>
+#include <intervalxt/sample/mpz_floor_division.hpp>
+#include <intervalxt/sample/renf_elem_coefficients.hpp>
+#include <intervalxt/sample/renf_elem_floor_division.hpp>
+#include <memory>
+#include <ostream>
+#include <unordered_set>
+#include <vector>
 
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/edge_set.hpp"
@@ -161,7 +160,7 @@ intervalxt::IntervalExchangeTransformation IntervalExchangeTransformation<Surfac
   const auto topLabels = lengths.labels();
 
   std::vector<Label> bottom;
-  for (auto& label: self->iet.bottom()) {
+  for (auto& label : self->iet.bottom()) {
     const auto top = self->iet.top();
     for (int t = 0; t < top.size(); t++) {
       if (top[t] == label) {

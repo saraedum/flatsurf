@@ -17,16 +17,16 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
+#include "../flatsurf/deformation.hpp"
 #include "../flatsurf/delaunay.hpp"
 #include "../flatsurf/edge.hpp"
 #include "../flatsurf/equivalence.hpp"
 #include "../flatsurf/equivalence_class.hpp"
-#include "../flatsurf/deformation.hpp"
-#include "../flatsurf/point.hpp"
 #include "../flatsurf/isomorphism.hpp"
-#include "generators/surface_generator.hpp"
-#include "generators/half_edge_generator.hpp"
+#include "../flatsurf/point.hpp"
 #include "generators/equivalence_generator.hpp"
+#include "generators/half_edge_generator.hpp"
+#include "generators/surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -183,8 +183,8 @@ TEMPLATE_TEST_CASE("Equivalence of Surfaces Modulo GL2", "[Equivalence][linear]"
         flipped.flip(halfEdge);
         CAPTURE(flipped);
 
-       // If we ignored the flipped edge, the surfaces would be
-       // indistinguishable. In any case, comparing them should not throw.
+        // If we ignored the flipped edge, the surfaces would be
+        // indistinguishable. In any case, comparing them should not throw.
         REQUIRE_NOTHROW(EquivalenceClass(*surface, equivalence) == EquivalenceClass(flipped, equivalence));
       }
     }
@@ -242,7 +242,7 @@ TEMPLATE_TEST_CASE("Equivalence of Surfaces Modulo SL2", "[Equivalence][areaPres
   }
 
   SECTION("Equivalence modulo a Skew") {
-    const auto deformation = surface->applyMatrix(T(2), T(0), T(0), T(1)/2);
+    const auto deformation = surface->applyMatrix(T(2), T(0), T(0), T(1) / 2);
 
     REQUIRE(EquivalenceClass(*surface, equivalence) == EquivalenceClass(deformation.codomain(), equivalence));
   }
@@ -250,7 +250,7 @@ TEMPLATE_TEST_CASE("Equivalence of Surfaces Modulo SL2", "[Equivalence][areaPres
   SECTION("Equivalence modulo a Flip-Skew") {
     const auto unsignedEquivalence = Equivalence<Surface>::areaPreserving(false);
 
-    const auto deformation = surface->applyMatrix(T(-2), T(0), T(0), T(1)/2);
+    const auto deformation = surface->applyMatrix(T(-2), T(0), T(0), T(1) / 2);
 
     REQUIRE(EquivalenceClass(*surface, unsignedEquivalence) == EquivalenceClass(deformation.codomain(), unsignedEquivalence));
   }
@@ -299,4 +299,4 @@ TEMPLATE_TEST_CASE("Isomorphisms of Surfaces", "[Equivalence][isomorphisms]", (m
   }
 }
 
-}
+}  // namespace flatsurf::test

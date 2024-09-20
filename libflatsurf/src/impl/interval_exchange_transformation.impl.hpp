@@ -22,8 +22,8 @@
 
 #include <intervalxt/interval_exchange_transformation.hpp>
 #include <map>
-#include <vector>
 #include <unordered_set>
+#include <vector>
 
 #include "../../flatsurf/interval_exchange_transformation.hpp"
 #include "flat_triangulation.impl.hpp"

@@ -23,11 +23,11 @@
 #include <memory>
 #include <vector>
 
-#include "../../flatsurf/point.hpp"
 #include "../../flatsurf/half_edge.hpp"
+#include "../../flatsurf/point.hpp"
 #include "../../flatsurf/vertex.hpp"
-#include "surface_generator.hpp"
 #include "../external/catch2/single_include/catch2/catch.hpp"
+#include "surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -42,7 +42,7 @@ class PointGenerator : public Catch::Generators::IGenerator<Point<FlatTriangulat
     CENTER_FACE = 2,
     LAST = 2,
   } state;
-  
+
   Point<FlatTriangulation<T>> current;
 
   Point<FlatTriangulation<T>> make(POINT kind) {
@@ -59,7 +59,8 @@ class PointGenerator : public Catch::Generators::IGenerator<Point<FlatTriangulat
   }
 
  public:
-  PointGenerator(std::shared_ptr<const FlatTriangulation<T>> surface, HalfEdge face) : surface(surface), face(face), state(POINT::SOURCE), current(make(state)) {
+  PointGenerator(std::shared_ptr<const FlatTriangulation<T>> surface, HalfEdge face) :
+    surface(surface), face(face), state(POINT::SOURCE), current(make(state)) {
   }
 
   const Point<FlatTriangulation<T>>& get() const override {
@@ -83,6 +84,6 @@ Catch::Generators::GeneratorWrapper<Point<FlatTriangulation<T>>> points(NamedSur
   return Catch::Generators::GeneratorWrapper<Point<FlatTriangulation<T>>>(std::unique_ptr<Catch::Generators::IGenerator<Point<FlatTriangulation<T>>>>(new PointGenerator<T>(surface, face)));
 }
 
-}
+}  // namespace flatsurf::test
 
 #endif

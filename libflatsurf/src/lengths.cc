@@ -19,8 +19,6 @@
 
 #include "impl/lengths.hpp"
 
-#include <unordered_set>
-
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
@@ -44,6 +42,7 @@
 #include <intervalxt/sample/renf_elem_coefficients.hpp>
 #include <intervalxt/sample/renf_elem_floor_division.hpp>
 #include <ostream>
+#include <unordered_set>
 
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/chain.hpp"

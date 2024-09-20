@@ -19,14 +19,12 @@
 #ifndef LIBFLATSURF_EQUIVALENCE_HPP
 #define LIBFLATSURF_EQUIVALENCE_HPP
 
-#include <boost/operators.hpp>
-
-#include <type_traits>
-
-#include <tuple>
 #include <any>
+#include <boost/operators.hpp>
 #include <functional>
 #include <memory>
+#include <tuple>
+#include <type_traits>
 
 #include "managed_movable.hpp"
 
@@ -92,7 +90,7 @@ class Equivalence : boost::equality_comparable<Equivalence<Surface>> {
   bool operator==(const Equivalence& other) const;
 
   template <typename S>
-  friend std::ostream &operator<<(std::ostream &, const Equivalence<S> &);
+  friend std::ostream& operator<<(std::ostream&, const Equivalence<S>&);
 
  private:
   ManagedMovable<Equivalence> self;
@@ -102,6 +100,6 @@ class Equivalence : boost::equality_comparable<Equivalence<Surface>> {
   friend ImplementationOf<ManagedMovable<Equivalence>>;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

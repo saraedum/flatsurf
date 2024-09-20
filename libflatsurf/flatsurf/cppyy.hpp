@@ -124,7 +124,7 @@ class Vector : public ::flatsurf::Vector<T> {
 
 // Work around https://github.com/wlav/cppyy/issues/245
 template <typename T>
-std::vector<T> vectorFromList(const std::list<T>& x) {
+std::vector<T> vectorFromList(const std::list<T> &x) {
   return std::vector(x.begin(), x.end());
 }
 

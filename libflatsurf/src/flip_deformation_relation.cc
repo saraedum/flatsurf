@@ -22,16 +22,16 @@
 
 #include <ostream>
 
+#include "../flatsurf/ccw.hpp"
+#include "../flatsurf/edge.hpp"
 #include "../flatsurf/flat_triangulation.hpp"
 #include "../flatsurf/path.hpp"
-#include "../flatsurf/point.hpp"
-#include "impl/point.impl.hpp"
-#include "../flatsurf/edge.hpp"
 #include "../flatsurf/path_iterator.hpp"
+#include "../flatsurf/point.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/vector.hpp"
 #include "../flatsurf/vertex.hpp"
-#include "../flatsurf/ccw.hpp"
+#include "impl/point.impl.hpp"
 
 namespace flatsurf {
 
@@ -53,10 +53,10 @@ std::optional<Path<Surface>> FlipDeformationRelation<Surface>::operator()(const 
       target = this->domain->previousAtVertex(target);
 
     path_.push_back(SaddleConnection<Surface>(
-      this->codomain,
-      this->codomain->sector(source, CCW::COUNTERCLOCKWISE, segment),
-      this->codomain->sector(target, CCW::COUNTERCLOCKWISE, -segment),
-      segment));
+        this->codomain,
+        this->codomain->sector(source, CCW::COUNTERCLOCKWISE, segment),
+        this->codomain->sector(target, CCW::COUNTERCLOCKWISE, -segment),
+        segment));
   }
   return path_;
 }

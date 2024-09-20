@@ -18,7 +18,6 @@
  *********************************************************************/
 
 #include "../flatsurf/vertical.hpp"
-
 #include "cereal.helpers.hpp"
 
 namespace flatsurf::test {
@@ -30,4 +29,4 @@ TEMPLATE_TEST_CASE("Serialization of a Vertical", "[Vertical][load][save]", (lon
   testRoundtrip(Vertical(*square, square->fromHalfEdge(HalfEdge(1))));
 }
 
-}
+}  // namespace flatsurf::test

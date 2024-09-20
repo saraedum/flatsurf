@@ -17,19 +17,20 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <stdexcept>
+#include "impl/linear_equivalence.hpp"
+
 #include <fmt/format.h>
 #include <fmt/ranges.h>
+
 #include <exact-real/forward.hpp>
+#include <stdexcept>
 
-#include "impl/linear_equivalence.hpp"
-#include "impl/linear_equivalence_walker.hpp"
-
-#include "impl/equivalence_class_code.hpp"
-#include "../flatsurf/edge.hpp"
-#include "../flatsurf/fmt.hpp"
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/deformation.hpp"
+#include "../flatsurf/edge.hpp"
+#include "../flatsurf/fmt.hpp"
+#include "impl/equivalence_class_code.hpp"
+#include "impl/linear_equivalence_walker.hpp"
 #include "util/assert.ipp"
 #include "util/hash.ipp"
 
@@ -54,10 +55,10 @@ T div(const T& numerator, const T& denominator) {
   }
 }
 
-}
+}  // namespace
 
 template <typename Surface>
-LinearEquivalence<Surface>::LinearEquivalence(bool oriented, Normalization normalization):
+LinearEquivalence<Surface>::LinearEquivalence(bool oriented, Normalization normalization) :
   oriented(oriented),
   normalization(normalization) {}
 
@@ -89,7 +90,7 @@ bool LinearEquivalence<Surface>::equal(const ImplementationOf<Equivalence<Surfac
 template <typename Surface>
 std::string LinearEquivalence<Surface>::toString() const {
   if (std::holds_alternative<GROUP>(normalization)) {
-    switch(std::get<GROUP>(normalization)) {
+    switch (std::get<GROUP>(normalization)) {
       case GROUP::TRIVIAL:
         return "Equivalence Modulo Labels";
       case GROUP::SL:
@@ -128,7 +129,7 @@ std::tuple<std::unique_ptr<EquivalenceClassCode>, ReadOnly<Surface>, std::vector
 template <typename Surface>
 typename LinearEquivalence<Surface>::Matrix LinearEquivalence<Surface>::normalize(const Surface& surface, HalfEdge e, HalfEdge f) const {
   if (std::holds_alternative<GROUP>(this->normalization)) {
-    switch(std::get<GROUP>(this->normalization)) {
+    switch (std::get<GROUP>(this->normalization)) {
       case GROUP::TRIVIAL:
         return {T(1), T(), T(), T(1)};
       case GROUP::GL:
@@ -148,14 +149,14 @@ typename LinearEquivalence<Surface>::Matrix LinearEquivalence<Surface>::orthogon
   // We determine the matrix in SL2± that maps e to (1, 0) and f to some (0, y),
   // to do this we determine the matrix that maps to (1, 0) and (0, 1) and then
   // scale the second row.
-  const auto [a, b, c, d] = orthonormalize(surface, e,  f);
+  const auto [a, b, c, d] = orthonormalize(surface, e, f);
 
-  T det = a*d - b*c;
+  T det = a * d - b * c;
 
   if (det < 0)
     det = -det;
 
-  return { a, b, div(c, det), div(d, det) };
+  return {a, b, div(c, det), div(d, det)};
 }
 
 template <typename Surface>
@@ -175,7 +176,7 @@ std::ostream& operator<<(std::ostream& os, const LinearEquivalence<Surface>& equ
   return os << equivalence.toString();
 }
 
-}
+}  // namespace flatsurf
 
 #include "../flatsurf/vector.hpp"
 #include "util/instantiate.ipp"

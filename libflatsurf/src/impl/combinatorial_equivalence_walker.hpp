@@ -22,12 +22,11 @@
 
 #include <unordered_map>
 
-#include "../../flatsurf/half_edge.hpp"
 #include "../../flatsurf/deformation.hpp"
-
-#include "equivalence_walker.hpp"
-#include "combinatorial_equivalence_class_code.hpp"
+#include "../../flatsurf/half_edge.hpp"
 #include "combinatorial_equivalence.hpp"
+#include "combinatorial_equivalence_class_code.hpp"
+#include "equivalence_walker.hpp"
 
 namespace flatsurf {
 
@@ -79,6 +78,6 @@ struct CombinatorialEquivalenceWalker : EquivalenceWalker<Surface, Combinatorial
   int steps = 0;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

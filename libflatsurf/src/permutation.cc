@@ -19,18 +19,17 @@
 
 #include "../flatsurf/permutation.hpp"
 
-#include <boost/range/numeric.hpp>
 #include <algorithm>
-#include <random>
+#include <boost/range/numeric.hpp>
 #include <cassert>
 #include <ostream>
-#include <unordered_set>
+#include <random>
 #include <unordered_map>
-
-#include "util/assert.ipp"
-#include "util/hash.ipp"
+#include <unordered_set>
 
 #include "external/rx-ranges/include/rx/ranges.hpp"
+#include "util/assert.ipp"
+#include "util/hash.ipp"
 
 namespace flatsurf {
 
@@ -75,7 +74,7 @@ template <typename T>
 Permutation<T>::Permutation(const std::vector<std::vector<T>> &cycles) :
   Permutation([&]() {
     std::vector<T> data(boost::accumulate(cycles, 0u, [](size_t sum, const auto &cycle) { return sum + cycle.size(); }));
-    for (const auto& cycle : cycles) {
+    for (const auto &cycle : cycles) {
       for (auto i = 0u; i < cycle.size(); i++) {
         LIBFLATSURF_ASSERT_ARGUMENT(index(cycle[i]) < data.size(), "cycle contains an element beyond the size of the permutation");
         data[index(cycle[i])] = cycle[(i + 1) % cycle.size()];
@@ -294,17 +293,16 @@ namespace std {
 using namespace flatsurf;
 
 template <typename T>
-size_t hash<Permutation<T>>::operator()(const Permutation<T>& self) const {
+size_t hash<Permutation<T>>::operator()(const Permutation<T> &self) const {
   size_t ret = 0;
-  for (const auto& t : self.permutation) {
-    ret = hash_combine(ret,  hash<T>{}(t));
+  for (const auto &t : self.permutation) {
+    ret = hash_combine(ret, hash<T>{}(t));
   }
 
   return ret;
 }
 
-}
-
+}  // namespace std
 
 using namespace flatsurf;
 
@@ -315,4 +313,4 @@ template class flatsurf::Permutation<HalfEdge>;
 template std::ostream &flatsurf::operator<<(std::ostream &os, const Permutation<HalfEdge> &self);
 template Permutation<HalfEdge> &flatsurf::operator*=(const std::vector<HalfEdge> &, Permutation<HalfEdge> &);
 template Permutation<HalfEdge> &flatsurf::operator*=(Permutation<HalfEdge> &, const std::vector<HalfEdge> &);
-template size_t std::hash<Permutation<HalfEdge>>::operator()(const Permutation<HalfEdge>&) const;
+template size_t std::hash<Permutation<HalfEdge>>::operator()(const Permutation<HalfEdge> &) const;

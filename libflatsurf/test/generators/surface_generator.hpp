@@ -98,24 +98,25 @@ class SurfaceGenerator : public Catch::Generators::IGenerator<std::tuple<std::st
   }
 };
 
-
 // A wrapper of a pair (name, surface) so that we can conveniently GENERATE
 // surfaces while keeping track of their name in Catch2.
 template <typename T>
 struct NamedSurface {
   using Surface = FlatTriangulation<T>;
 
-  NamedSurface(const std::shared_ptr<Surface>& surface) : NamedSurface(std::tuple{"?", surface}) {}
+  NamedSurface(const std::shared_ptr<Surface>& surface) :
+    NamedSurface(std::tuple{"?", surface}) {}
 
-  NamedSurface(const std::shared_ptr<const Surface>& surface) : NamedSurface(std::tuple{"?", surface}) {}
+  NamedSurface(const std::shared_ptr<const Surface>& surface) :
+    NamedSurface(std::tuple{"?", surface}) {}
 
-  NamedSurface(std::tuple<std::string, std::shared_ptr<const Surface>> surface) : surface(std::get<1>(surface)), name(std::get<0>(surface)) {}
+  NamedSurface(std::tuple<std::string, std::shared_ptr<const Surface>> surface) :
+    surface(std::get<1>(surface)), name(std::get<0>(surface)) {}
 
-  operator const std::shared_ptr<const Surface>&() const { return surface; }
-  operator const std::string&() const { return name; }
+  operator const std::shared_ptr<const Surface> &() const { return surface; }
+  operator const std::string &() const { return name; }
 
-  friend
-  std::ostream& operator<<(std::ostream& os, const NamedSurface& surface) {
+  friend std::ostream& operator<<(std::ostream& os, const NamedSurface& surface) {
     return os << surface.name << ": " << *surface;
   }
 
@@ -132,10 +133,8 @@ NamedSurface(std::shared_ptr<FlatTriangulation<T>>) -> NamedSurface<T>;
 template <typename T>
 NamedSurface(std::shared_ptr<const FlatTriangulation<T>>) -> NamedSurface<T>;
 
-
 #define GENERATE_SURFACES(T) \
   NamedSurface<T>(GENERATE(::flatsurf::test::surfaces<T>()))
-
 
 template <typename T>
 Catch::Generators::GeneratorWrapper<std::tuple<std::string, std::shared_ptr<const FlatTriangulation<T>>>> surfaces() {

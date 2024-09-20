@@ -25,13 +25,13 @@
 #include <exact-real/arb.hpp>
 #include <memory>
 
+#include "../flatsurf/cereal.hpp"
 #include "../flatsurf/edge.hpp"
 #include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/vertex.hpp"
-#include "../flatsurf/cereal.hpp"
-#include "surfaces.hpp"
-#include "external/cereal/include/cereal/archives/json.hpp"
 #include "external/catch2/single_include/catch2/catch.hpp"
+#include "external/cereal/include/cereal/archives/json.hpp"
+#include "surfaces.hpp"
 
 namespace flatsurf::test {
 
@@ -158,7 +158,6 @@ static void testRoundtrip(const T& x) {
 
   REQUIRE(comparer<T>::eq(x, *y));
 }
-
 
 }  // namespace flatsurf::test
 

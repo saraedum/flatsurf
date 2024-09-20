@@ -23,9 +23,8 @@
 #include "../../flatsurf/deformation.hpp"
 #include "../../flatsurf/edge.hpp"
 #include "../../flatsurf/permutation.hpp"
-#include "surface_generator.hpp"
-
 #include "../external/catch2/single_include/catch2/catch.hpp"
+#include "surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -39,7 +38,8 @@ class DeformationGenerator : public Catch::Generators::IGenerator<Deformation<Fl
   typename Cache::const_iterator current;
 
  public:
-  DeformationGenerator(std::shared_ptr<const FlatTriangulation<T>> surface) : surface(surface), current(deformations.end()) {
+  DeformationGenerator(std::shared_ptr<const FlatTriangulation<T>> surface) :
+    surface(surface), current(deformations.end()) {
     auto domain = surface->clone();
 
     {
@@ -96,6 +96,6 @@ Catch::Generators::GeneratorWrapper<Deformation<FlatTriangulation<T>>> deformati
   return Catch::Generators::GeneratorWrapper<Deformation<FlatTriangulation<T>>>(std::unique_ptr<Catch::Generators::IGenerator<Deformation<FlatTriangulation<T>>>>(new DeformationGenerator<T>(surface)));
 }
 
-}
+}  // namespace flatsurf::test
 
 #endif

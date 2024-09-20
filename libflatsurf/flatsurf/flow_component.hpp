@@ -20,6 +20,8 @@
 #ifndef LIBFLATSURF_FLOW_COMPONENT_HPP
 #define LIBFLATSURF_FLOW_COMPONENT_HPP
 
+#include <gmpxx.h>
+
 #include <boost/logic/tribool_fwd.hpp>
 #include <boost/operators.hpp>
 #include <functional>
@@ -27,7 +29,6 @@
 #include <iosfwd>
 #include <list>
 #include <vector>
-#include <gmpxx.h>
 
 #include "copyable.hpp"
 

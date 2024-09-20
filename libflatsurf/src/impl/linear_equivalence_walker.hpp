@@ -22,13 +22,12 @@
 
 #include <unordered_set>
 
-#include "../../flatsurf/edge.hpp"
 #include "../../flatsurf/deformation.hpp"
-
-#include "equivalence_walker.hpp"
-#include "linear_equivalence_class_code.hpp"
+#include "../../flatsurf/edge.hpp"
 #include "combinatorial_equivalence_walker.hpp"
+#include "equivalence_walker.hpp"
 #include "linear_equivalence.hpp"
+#include "linear_equivalence_class_code.hpp"
 
 namespace flatsurf {
 
@@ -64,6 +63,6 @@ struct LinearEquivalenceWalker : EquivalenceWalker<Surface, LinearEquivalenceWal
   NormalizationMatrix normalizationMatrix;
 };
 
-}
+}  // namespace flatsurf
 
 #endif

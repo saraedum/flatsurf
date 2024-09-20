@@ -17,9 +17,9 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <string>
-
 #include "impl/equivalence_class_code.hpp"
+
+#include <string>
 
 namespace flatsurf {
 
@@ -33,7 +33,7 @@ std::ostream& operator<<(std::ostream& os, const EquivalenceClassCode& code) {
   return os << code.toString();
 }
 
-}
+}  // namespace flatsurf
 
 namespace std {
 
@@ -43,4 +43,4 @@ size_t hash<EquivalenceClassCode>::operator()(const EquivalenceClassCode& self) 
   return self.hash();
 }
 
-}
+}  // namespace std

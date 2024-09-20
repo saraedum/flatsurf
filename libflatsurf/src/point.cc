@@ -17,40 +17,42 @@
  *  along with flatsurf. If not, see <https://www.gnu.org/licenses/>.
  *********************************************************************/
 
-#include <ostream>
-#include <stdexcept>
+#include "../flatsurf/point.hpp"
+
 #include <fmt/format.h>
 
-#include "../flatsurf/point.hpp"
+#include <ostream>
+#include <stdexcept>
+
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/chain.hpp"
 #include "../flatsurf/deformation.hpp"
 #include "../flatsurf/edge.hpp"
 #include "../flatsurf/fmt.hpp"
-#include "../flatsurf/vertex.hpp"
 #include "../flatsurf/half_edge.hpp"
 #include "../flatsurf/half_edge_set.hpp"
 #include "../flatsurf/half_edge_set_iterator.hpp"
-#include "../flatsurf/vector.hpp"
+#include "../flatsurf/orientation.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/saddle_connections.hpp"
 #include "../flatsurf/saddle_connections_iterator.hpp"
-#include "../flatsurf/orientation.hpp"
+#include "../flatsurf/vector.hpp"
+#include "../flatsurf/vertex.hpp"
+#include "impl/linear_deformation_relation.hpp"
+#include "impl/point.impl.hpp"
 #include "util/assert.ipp"
 #include "util/hash.ipp"
 #include "util/streamed.ipp"
-#include "impl/point.impl.hpp"
-#include "impl/linear_deformation_relation.hpp"
 
 namespace flatsurf {
 
 namespace {
-template<typename>
+template <typename>
 struct size;
 
-template<typename T, size_t N>
-struct size<std::array<T, N> > {
-    static size_t const value = N;
+template <typename T, size_t N>
+struct size<std::array<T, N>> {
+  static size_t const value = N;
 };
 
 template <typename A, size_t... I>
@@ -63,23 +65,27 @@ auto as_tuple(const A& array) {
   return as_tuple(array, std::make_index_sequence<N>{});
 }
 
-}
+}  // namespace
 
 template <typename Surface>
-Point<Surface>::Point(const Surface& surface, const Vertex& vertex) : Point(surface, *vertex.outgoing().begin(), T(1), T(), T()) {}
+Point<Surface>::Point(const Surface& surface, const Vertex& vertex) :
+  Point(surface, *vertex.outgoing().begin(), T(1), T(), T()) {}
 
 template <typename Surface>
-Point<Surface>::Point(const Surface& surface, HalfEdge face, const T& a, const T& b, const T& c) : self(spimpl::make_impl<ImplementationOf<Point>>(surface, face, a, b, c)) {
+Point<Surface>::Point(const Surface& surface, HalfEdge face, const T& a, const T& b, const T& c) :
+  self(spimpl::make_impl<ImplementationOf<Point>>(surface, face, a, b, c)) {
   self->normalize();
 }
 
 template <typename Surface>
-Point<Surface>::Point(const Surface& surface, HalfEdge face, const Vector<T>& xy) : self(spimpl::make_impl<ImplementationOf<Point>>(surface, face, xy)) {
+Point<Surface>::Point(const Surface& surface, HalfEdge face, const Vector<T>& xy) :
+  self(spimpl::make_impl<ImplementationOf<Point>>(surface, face, xy)) {
   self->normalize();
 }
 
 template <typename Surface>
-Point<Surface>::Point(const Surface& surface, HalfEdge face, const std::array<T, 3>& coordinates) : Point(surface, face, std::move(coordinates[0]), std::move(coordinates[1]), std::move(coordinates[2])) {
+Point<Surface>::Point(const Surface& surface, HalfEdge face, const std::array<T, 3>& coordinates) :
+  Point(surface, face, std::move(coordinates[0]), std::move(coordinates[1]), std::move(coordinates[2])) {
 }
 
 template <typename Surface>
@@ -124,7 +130,7 @@ Point<Surface>& Point<Surface>::operator+=(const Vector<T>& delta) {
   // representation of this point.
   if (vertex()) {
     LIBFLATSURF_ASSERT(!self->b && !self->c, "incorrect normalization for barycentric coordinates of point at vertex");
-    while(!self->surface->inSector(self->face, delta))
+    while (!self->surface->inSector(self->face, delta))
       self->face = self->surface->nextAtVertex(self->face);
   } else if (edge()) {
     LIBFLATSURF_ASSERT(!self->c, "incorrect normalization for barycentric coordinates of point on edge");
@@ -216,12 +222,14 @@ Vector<typename Surface::Coordinate> Point<Surface>::vector(HalfEdge origin) con
 }
 
 template <typename Surface>
-ImplementationOf<Point<Surface>>::ImplementationOf(const Surface& surface, HalfEdge face, T a, T b, T c) : surface(surface), face(face), a(std::move(a)), b(std::move(b)), c(std::move(c)) {
+ImplementationOf<Point<Surface>>::ImplementationOf(const Surface& surface, HalfEdge face, T a, T b, T c) :
+  surface(surface), face(face), a(std::move(a)), b(std::move(b)), c(std::move(c)) {
   LIBFLATSURF_ASSERT_ARGUMENT(face.edge().index() < surface.size(), "no such face in surface")
 }
 
 template <typename Surface>
-ImplementationOf<Point<Surface>>::ImplementationOf(const Surface& surface, HalfEdge face, const Vector<T>& xy) : ImplementationOf(surface, face, T(1), T(), T()) {
+ImplementationOf<Point<Surface>>::ImplementationOf(const Surface& surface, HalfEdge face, const Vector<T>& xy) :
+  ImplementationOf(surface, face, T(1), T(), T()) {
   *this += xy;
 }
 
@@ -260,7 +268,6 @@ void ImplementationOf<Point<Surface>>::normalize() {
       this->face = face;
     }
   }
-
 }
 
 template <typename Surface>
@@ -312,7 +319,7 @@ std::array<typename Surface::Coordinate, 3> ImplementationOf<Point<Surface>>::cr
   const auto C = B + surface->fromHalfEdge(surface->nextInFace(face));
   const T det = B.x() * A.y() - B.y() * A.x();
 
-  const T λb_c =  A.y() * C.x() - A.x() * C.y();
+  const T λb_c = A.y() * C.x() - A.x() * C.y();
   const T λa_c = -B.y() * C.x() + B.x() * C.y();
   const T d_c = det - λa_c - λb_c;
 
@@ -322,9 +329,9 @@ std::array<typename Surface::Coordinate, 3> ImplementationOf<Point<Surface>>::cr
   // So in (denormalized) barycentric coordinates with respect to (B, A, D) we get:
   // P = (λ b + c λ b_c, λ a + c λ a_c, c d_c)
   return {
-    det * b + c * λb_c,
-    det * a + c * λa_c,
-    c * d_c,
+      det * b + c * λb_c,
+      det * a + c * λa_c,
+      c * d_c,
   };
 }
 
@@ -408,7 +415,7 @@ ImplementationOf<Point<Surface>>& ImplementationOf<Point<Surface>>::operator+=(c
     // This point is in the interior of a face or in the interior of an edge.
     // We insert a vertex for the point, solve in the modified surface and then
     // pull the result back.
-    const auto p = Point{*surface, face, a ,b, c};
+    const auto p = Point{*surface, face, a, b, c};
     const auto insertion = surface->insert(p);
     const auto shifted = insertion(p) + Δ;
     return *this = *insertion.section()(shifted).self;
@@ -458,12 +465,12 @@ ImplementationOf<Point<Surface>>& ImplementationOf<Point<Surface>>::operator+=(c
         // Shift the point across this marked point.
         *this = *marked.self;
         const auto δ = Δ - *it;
-        while(!surface->inSector(this->face, δ))
+        while (!surface->inSector(this->face, δ))
           this->face = surface->nextAtVertex(this->face);
         return *this += δ;
       }
-      
-      it.skipSector(Δ.ccw(*it)); 
+
+      it.skipSector(Δ.ccw(*it));
     }
   }
 }
@@ -483,19 +490,20 @@ std::array<typename Surface::Coordinate, 3> ImplementationOf<Point<Surface>>::ba
   const T det = AB.x() * AC.y() - AC.x() * AB.y();
   LIBFLATSURF_ASSERT(det, "triangles describing the faces must not be degenerate");
 
-  const T b = AC.y() * xy.x() - AC.x() * xy.y(); // divided by det
-  const T c = - AB.y() * xy.x() + AB.x() * xy.y(); // divided by det
-  const T a = det - b - c; // divided by det
+  const T b = AC.y() * xy.x() - AC.x() * xy.y();   // divided by det
+  const T c = -AB.y() * xy.x() + AB.x() * xy.y();  // divided by det
+  const T a = det - b - c;                         // divided by det
 
   return {a, b, c};
 }
 
 template <typename Surface>
 std::ostream& operator<<(std::ostream& os, const Point<Surface>& point) {
-  return os << "(" << point.self->a << ", " << point.self->b << ", " << point.self->c << ") in " << "(" << point.self->face << ", " << point.self->surface->nextInFace(point.self->face) << ", " << point.self->surface->previousInFace(point.self->face) << ")";
+  return os << "(" << point.self->a << ", " << point.self->b << ", " << point.self->c << ") in "
+            << "(" << point.self->face << ", " << point.self->surface->nextInFace(point.self->face) << ", " << point.self->surface->previousInFace(point.self->face) << ")";
 }
 
-}
+}  // namespace flatsurf
 
 template <typename Surface>
 size_t std::hash<::flatsurf::Point<Surface>>::operator()(const ::flatsurf::Point<Surface>& point) const {
@@ -550,7 +558,6 @@ size_t std::hash<::flatsurf::Point<Surface>>::operator()(const ::flatsurf::Point
     LIBFLATSURF_ASSERT(!c, "point on an edge has coordinates (a, b, 0)");
     return ::flatsurf::hash_combine(::flatsurf::Edge(face), a == max ? quot(b, a) : quot(a, b));
   }
-
 
   // We need to hash the coordinates (a, b, c) such that hash(a, b, c) =
   // hash(λa, λb, λc) for a positive λ. we also need the hash to be invariant

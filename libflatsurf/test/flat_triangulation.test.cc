@@ -29,26 +29,26 @@
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/deformation.hpp"
 #include "../flatsurf/delaunay.hpp"
+#include "../flatsurf/edge.hpp"
 #include "../flatsurf/equivalence.hpp"
 #include "../flatsurf/flat_triangulation.hpp"
 #include "../flatsurf/fmt.hpp"
 #include "../flatsurf/half_edge.hpp"
-#include "../flatsurf/edge.hpp"
 #include "../flatsurf/half_edge_set.hpp"
-#include "../flatsurf/path.hpp"
-#include "../flatsurf/path_iterator.hpp"
 #include "../flatsurf/interval_exchange_transformation.hpp"
 #include "../flatsurf/isomorphism.hpp"
+#include "../flatsurf/odd_half_edge_map.hpp"
+#include "../flatsurf/path.hpp"
+#include "../flatsurf/path_iterator.hpp"
 #include "../flatsurf/saddle_connection.hpp"
 #include "../flatsurf/saddle_connections.hpp"
 #include "../flatsurf/vector.hpp"
-#include "../flatsurf/odd_half_edge_map.hpp"
 #include "../src/external/rx-ranges/include/rx/ranges.hpp"
 #include "cereal.helpers.hpp"
 #include "generators/half_edge_generator.hpp"
+#include "generators/point_generator.hpp"
 #include "generators/real_generator.hpp"
 #include "generators/surface_generator.hpp"
-#include "generators/point_generator.hpp"
 #include "surfaces.hpp"
 
 namespace flatsurf::test {
@@ -462,11 +462,11 @@ TEMPLATE_TEST_CASE("Detect Isomorphic Surfaces", "[FlatTriangulation][isomorphis
     using R2 = flatsurf::Vector<T>;
     SECTION("An Isomorphism Coming from a Veech Group Element") {
       const auto domain = FlatTriangulation<T>(
-        FlatTriangulationCombinatorial(std::vector<std::vector<int>>{{1, -3, -8, 9, 3, -2, -7, 4, -5, 7, -6, 8, -9, 6, 2, -1, -4, 5}}),
-        vector{R2(0, -1), R2(1, 1), R2(-1, 0), R2(1, 0), R2(-1, -1), R2(1, 0), R2(0, 1), R2(-1, -1), R2(0, 1)});
+          FlatTriangulationCombinatorial(std::vector<std::vector<int>>{{1, -3, -8, 9, 3, -2, -7, 4, -5, 7, -6, 8, -9, 6, 2, -1, -4, 5}}),
+          vector{R2(0, -1), R2(1, 1), R2(-1, 0), R2(1, 0), R2(-1, -1), R2(1, 0), R2(0, 1), R2(-1, -1), R2(0, 1)});
       const auto codomain = FlatTriangulation<T>(
-        FlatTriangulationCombinatorial(std::vector<std::vector<int>>{{1, -3, 7, -6, 3, -2, -5, -9, 8, 5, -4, -7, 6, 4, 2, -1, 9, -8}}),
-        vector{R2(0, -1), R2(1, 1), R2(-1, 0), R2(1, 0), R2(0, 1), R2(0, -1), R2(1, 1), R2(1, 1), R2(-1, 0)});
+          FlatTriangulationCombinatorial(std::vector<std::vector<int>>{{1, -3, 7, -6, 3, -2, -5, -9, 8, 5, -4, -7, 6, 4, 2, -1, 9, -8}}),
+          vector{R2(0, -1), R2(1, 1), R2(-1, 0), R2(1, 0), R2(0, 1), R2(0, -1), R2(1, 1), R2(1, 1), R2(-1, 0)});
 
       CAPTURE(domain);
       CAPTURE(codomain);

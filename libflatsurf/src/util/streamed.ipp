@@ -35,6 +35,6 @@ auto streamed(const T& x) {
 #endif
 }
 
-}
+}  // namespace
 
 #endif

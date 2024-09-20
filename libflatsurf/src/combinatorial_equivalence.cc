@@ -21,15 +21,15 @@
 
 #include "../flatsurf/deformation.hpp"
 #include "../flatsurf/edge.hpp"
-#include "impl/equivalence_class_code.hpp"
 #include "impl/combinatorial_equivalence_walker.hpp"
+#include "impl/equivalence_class_code.hpp"
 #include "util/assert.ipp"
 #include "util/hash.ipp"
 
 namespace flatsurf {
 
 template <typename Surface>
-CombinatorialEquivalence<Surface>::CombinatorialEquivalence(bool oriented):
+CombinatorialEquivalence<Surface>::CombinatorialEquivalence(bool oriented) :
   oriented(oriented) {}
 
 template <typename Surface>
@@ -69,7 +69,7 @@ std::ostream& operator<<(std::ostream& os, const CombinatorialEquivalence<Surfac
   return os << self.toString();
 }
 
-}
+}  // namespace flatsurf
 
 #include "util/instantiate.ipp"
 

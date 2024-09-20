@@ -61,5 +61,4 @@ struct hash<flatsurf::FlatTriangulationCombinatorial> {
 
 }  // namespace std
 
-
 #endif

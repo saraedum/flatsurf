@@ -21,16 +21,16 @@
 
 #include "../flatsurf/deformation.hpp"
 #include "../flatsurf/edge.hpp"
-#include "../flatsurf/tracked.hpp"
 #include "../flatsurf/odd_half_edge_map.hpp"
 #include "../flatsurf/path.hpp"
 #include "../flatsurf/path_iterator.hpp"
+#include "../flatsurf/tracked.hpp"
 #include "external/catch2/single_include/catch2/catch.hpp"
-#include "generators/surface_generator.hpp"
-#include "generators/saddle_connection_generator.hpp"
+#include "generators/deformation_generator.hpp"
 #include "generators/half_edge_generator.hpp"
 #include "generators/point_generator.hpp"
-#include "generators/deformation_generator.hpp"
+#include "generators/saddle_connection_generator.hpp"
+#include "generators/surface_generator.hpp"
 
 namespace flatsurf::test {
 
@@ -89,7 +89,7 @@ TEMPLATE_TEST_CASE("Mapping Points Across Deformations", "[Deformation][operator
     const auto section = [&]() -> std::optional<Deformation<Surface>> {
       try {
         return deformation.section();
-      } catch(const std::logic_error&) {
+      } catch (const std::logic_error&) {
         return std::nullopt;
       }
     }();
@@ -125,7 +125,7 @@ TEMPLATE_TEST_CASE("Mapping Paths Across Deformation", "[Deformation][operator()
     const auto section = [&]() -> std::optional<Deformation<Surface>> {
       try {
         return deformation.section();
-      } catch(const std::logic_error&) {
+      } catch (const std::logic_error&) {
         return std::nullopt;
       }
     }();
@@ -190,7 +190,7 @@ TEMPLATE_TEST_CASE("Deform a Flat Triangulation", "[Deformation]", (long long), 
     REQUIRE(scaled.codomain() != *surface);
 
     if constexpr (hasFractions<T>) {
-      auto unscaled = scaled.codomain().applyMatrix(T(1)/2, T(), T(), T(1)/2);
+      auto unscaled = scaled.codomain().applyMatrix(T(1) / 2, T(), T(), T(1) / 2);
       REQUIRE(unscaled.codomain() == *surface);
     }
   }

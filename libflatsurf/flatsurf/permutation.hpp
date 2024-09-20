@@ -80,7 +80,7 @@ class Permutation : boost::equality_comparable<Permutation<T>>, boost::multiplia
 
 namespace std {
 
-template<typename T>
+template <typename T>
 struct hash<flatsurf::Permutation<T>> {
   size_t operator()(const flatsurf::Permutation<T> &) const;
 };

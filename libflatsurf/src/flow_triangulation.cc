@@ -21,8 +21,8 @@
 
 #include <ostream>
 #include <stack>
-#include <unordered_set>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "../flatsurf/ccw.hpp"
 #include "../flatsurf/edge.hpp"
